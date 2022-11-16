@@ -69,13 +69,17 @@ const hexExtractor = (map, buffer, start = 0) => {
         let bytes = buffer.slice(offset, offset + value.size);
         let data = littleEndianConvert(bytes);
 
+        offset += value.size;
+
         if (value.mapping) {
             data = byteMaskExtractor(value.mapping, data);
+            if (value.expand) {
+                extracted = {...extracted, ...data};
+                continue;
+            }
         }
 
         extracted[key] = data;
-
-        offset += value.size;
     }
 
     return extracted;

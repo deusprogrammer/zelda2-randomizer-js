@@ -10,7 +10,7 @@ let rom = fs.readFileSync('./rom.nes');
 let headers = hexExtractor(NES_HEADER_MAP, rom);
 
 console.box("NES HEADERS");
-console.json(headers);
+console.table(headers);
 
 let westHyrule = hexExtractor(WEST_HYRULE, rom);
 

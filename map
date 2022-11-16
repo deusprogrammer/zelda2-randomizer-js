@@ -1,0 +1,1262 @@
+┌─────────────┐
+│ NES HEADERS │
+└─────────────┘
+{
+     "NES_HEADER": 441664846,
+     "PRG_ROM_SIZE": 8,
+     "CHR_ROM_SIZE": 16,
+     "MIRRORING": 0,
+     "BATTERY": 1,
+     "TRAINER": 0,
+     "IGNORE_MIRRORING": 0,
+     "LOWER_MAPPER_NR": 1,
+     "VS_UNI_SYS": 0,
+     "PLAY_CHOICE": 0,
+     "NES_2_0": 0,
+     "UPPER_MAPPER_NR": 0,
+     "PRG_RAM_SIZE": 0,
+     "TV_SYSTEM": 0,
+     "RESERVED": 0,
+     "PRG_RAM": 0,
+     "BUS_CONF": 0,
+     "PADDING": 0
+}
+┌───────────────────────┐
+│ WEST HYRULE LOCATIONS │
+└───────────────────────┘
+{
+     "NORTH_CASTLE_Y": {
+          "POS": 52,
+          "EXTERNAL": 0
+     },
+     "TROPHY_CAVE_Y": {
+          "POS": 32,
+          "EXTERNAL": 0
+     },
+     "FOREST_50P_Y": {
+          "POS": 42,
+          "EXTERNAL": 0
+     },
+     "MAGIC_CAVE_Y": {
+          "POS": 60,
+          "EXTERNAL": 0
+     },
+     "FOREST_100P_Y": {
+          "POS": 86,
+          "EXTERNAL": 0
+     },
+     "HEART_CLIFF_Y": {
+          "POS": 64,
+          "EXTERNAL": 0
+     },
+     "LOST_WOODS_1_Y": {
+          "POS": 77,
+          "EXTERNAL": 0
+     },
+     "BUBBLE_CLIFF_Y": {
+          "POS": 57,
+          "EXTERNAL": 0
+     },
+     "EX_LIFE_SWAMP_1_Y": {
+          "POS": 71,
+          "EXTERNAL": 0
+     },
+     "RED_JAR_CEM_Y": {
+          "POS": 92,
+          "EXTERNAL": 0
+     },
+     "PARAPA_CAVE_N_Y": {
+          "POS": 41,
+          "EXTERNAL": 0
+     },
+     "PARAPA_CAVE_S_Y": {
+          "POS": 46,
+          "EXTERNAL": 0
+     },
+     "JUMP_CAVE_N_Y": {
+          "POS": 58,
+          "EXTERNAL": 0
+     },
+     "JUMP_CAVE_S_Y": {
+          "POS": 62,
+          "EXTERNAL": 0
+     },
+     "CAVE_200P_Y": {
+          "POS": 62,
+          "EXTERNAL": 0
+     },
+     "MEDICINE_CAVE_Y": {
+          "POS": 69,
+          "EXTERNAL": 0
+     },
+     "HEART_CAVE_Y": {
+          "POS": 62,
+          "EXTERNAL": 0
+     },
+     "FAIRY_CAVE_HOLE_Y": {
+          "POS": 96,
+          "EXTERNAL": 0
+     },
+     "FAIRY_CAVE_Y": {
+          "POS": 102,
+          "EXTERNAL": 0
+     },
+     "LIFE_TOWN_BRIDGE_NS_Y": {
+          "POS": 82,
+          "EXTERNAL": 0
+     },
+     "LIFE_TOWN_BRIDGE_EW_Y": {
+          "POS": 87,
+          "EXTERNAL": 0
+     },
+     "DM_BRIDGE_EXIT_W_Y": {
+          "POS": 97,
+          "EXTERNAL": 0
+     },
+     "DM_BRIDGE_EXIT_E_Y": {
+          "POS": 97,
+          "EXTERNAL": 0
+     },
+     "MEDICINE_CAVE_FAIRY_Y": {
+          "POS": 64,
+          "EXTERNAL": 0
+     },
+     "RED_JAR_SWAMP_Y": {
+          "POS": 67,
+          "EXTERNAL": 0
+     },
+     "LIFE_TOWN_FAIRY_Y": {
+          "POS": 87,
+          "EXTERNAL": 0
+     },
+     "LOST_WOODS_2_Y": {
+          "POS": 76,
+          "EXTERNAL": 0
+     },
+     "LOST_WOODS_3_Y": {
+          "POS": 77,
+          "EXTERNAL": 0
+     },
+     "LOST_WOODS_4_Y": {
+          "POS": 78,
+          "EXTERNAL": 0
+     },
+     "LOST_WOODS_5_Y": {
+          "POS": 77,
+          "EXTERNAL": 0
+     },
+     "P2_RED_JAR_Y": {
+          "POS": 68,
+          "EXTERNAL": 0
+     },
+     "RED_JAR_BEACH_Y": {
+          "POS": 0,
+          "EXTERNAL": 0
+     },
+     "EX_LIFE_BEACH_Y": {
+          "POS": 102,
+          "EXTERNAL": 0
+     },
+     "RAFT_DOCK_Y": {
+          "POS": 77,
+          "EXTERNAL": 1
+     },
+     "DM_ENTRANCE_Y": {
+          "POS": 95,
+          "EXTERNAL": 1
+     },
+     "DM_EXIT_Y": {
+          "POS": 96,
+          "EXTERNAL": 1
+     },
+     "KINGS_TOMB_Y": {
+          "POS": 88,
+          "EXTERNAL": 1
+     },
+     "SHIELD_TOWN_Y": {
+          "POS": 54,
+          "EXTERNAL": 1
+     },
+     "JUMP_TOWN_Y": {
+          "POS": 36,
+          "EXTERNAL": 1
+     },
+     "LIFE_TOWN_S_Y": {
+          "POS": 91,
+          "EXTERNAL": 1
+     },
+     "LIFE_TOWN_N_Y": {
+          "POS": 89,
+          "EXTERNAL": 1
+     },
+     "BAGUS_CABIN_Y": {
+          "POS": 76,
+          "EXTERNAL": 1
+     },
+     "FAIRY_TOWN_Y": {
+          "POS": 75,
+          "EXTERNAL": 1
+     },
+     "P1_Y": {
+          "POS": 32,
+          "EXTERNAL": 1
+     },
+     "P2_Y": {
+          "POS": 64,
+          "EXTERNAL": 1
+     },
+     "P3_Y": {
+          "POS": 98,
+          "EXTERNAL": 1
+     },
+     "NORTH_CASTLE_X": {
+          "POS": 23,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "TROPHY_CAVE_X": {
+          "POS": 29,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "FOREST_50P_X": {
+          "POS": 37,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "MAGIC_CAVE_X": {
+          "POS": 16,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "FOREST_100P_X": {
+          "POS": 20,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "HEART_CLIFF_X": {
+          "POS": 62,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LOST_WOODS_1_X": {
+          "POS": 21,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "BUBBLE_CLIFF_X": {
+          "POS": 61,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "EX_LIFE_SWAMP_1_X": {
+          "POS": 8,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "RED_JAR_CEM_X": {
+          "POS": 48,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "PARAPA_CAVE_N_X": {
+          "POS": 48,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "PARAPA_CAVE_S_X": {
+          "POS": 55,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "JUMP_CAVE_N_X": {
+          "POS": 1,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "JUMP_CAVE_S_X": {
+          "POS": 3,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "CAVE_200P_X": {
+          "POS": 38,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "MEDICINE_CAVE_X": {
+          "POS": 9,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "HEART_CAVE_X": {
+          "POS": 54,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "FAIRY_CAVE_HOLE_X": {
+          "POS": 50,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "FAIRY_CAVE_X": {
+          "POS": 59,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "LIFE_TOWN_BRIDGE_NS_X": {
+          "POS": 16,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LIFE_TOWN_BRIDGE_EW_X": {
+          "POS": 26,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "DM_BRIDGE_EXIT_W_X": {
+          "POS": 26,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "DM_BRIDGE_EXIT_E_X": {
+          "POS": 34,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "MEDICINE_CAVE_FAIRY_X": {
+          "POS": 7,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "RED_JAR_SWAMP_X": {
+          "POS": 17,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LIFE_TOWN_FAIRY_X": {
+          "POS": 33,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LOST_WOODS_2_X": {
+          "POS": 20,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LOST_WOODS_3_X": {
+          "POS": 17,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LOST_WOODS_4_X": {
+          "POS": 19,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LOST_WOODS_5_X": {
+          "POS": 23,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "P2_RED_JAR_X": {
+          "POS": 37,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "RED_JAR_BEACH_X": {
+          "POS": 0,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "EX_LIFE_BEACH_X": {
+          "POS": 38,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "RAFT_DOCK_X": {
+          "POS": 61,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "DM_ENTRANCE_X": {
+          "POS": 10,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "DM_EXIT_X": {
+          "POS": 21,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "KINGS_TOMB_X": {
+          "POS": 50,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "SHIELD_TOWN_X": {
+          "POS": 46,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "JUMP_TOWN_X": {
+          "POS": 2,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "LIFE_TOWN_S_X": {
+          "POS": 8,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "LIFE_TOWN_N_X": {
+          "POS": 8,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "BAGUS_CABIN_X": {
+          "POS": 21,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "FAIRY_TOWN_X": {
+          "POS": 60,
+          "CAVE_SEG": 1,
+          "RESERVED": 0
+     },
+     "P1_X": {
+          "POS": 62,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "P2_X": {
+          "POS": 11,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "P3_X": {
+          "POS": 57,
+          "CAVE_SEG": 0,
+          "RESERVED": 0
+     },
+     "NORTH_CASTLE_MN": {
+          "POS": 0,
+          "H_POS_ENT": 2
+     },
+     "TROPHY_CAVE_MN": {
+          "POS": 33,
+          "H_POS_ENT": 3
+     },
+     "FOREST_50P_MN": {
+          "POS": 43,
+          "H_POS_ENT": 1
+     },
+     "MAGIC_CAVE_MN": {
+          "POS": 45,
+          "H_POS_ENT": 0
+     },
+     "FOREST_100P_MN": {
+          "POS": 46,
+          "H_POS_ENT": 1
+     },
+     "HEART_CLIFF_MN": {
+          "POS": 38,
+          "H_POS_ENT": 1
+     },
+     "LOST_WOODS_1_MN": {
+          "POS": 44,
+          "H_POS_ENT": 1
+     },
+     "BUBBLE_CLIFF_MN": {
+          "POS": 6,
+          "H_POS_ENT": 1
+     },
+     "EX_LIFE_SWAMP_1_MN": {
+          "POS": 51,
+          "H_POS_ENT": 1
+     },
+     "RED_JAR_CEM_MN": {
+          "POS": 56,
+          "H_POS_ENT": 1
+     },
+     "PARAPA_CAVE_N_MN": {
+          "POS": 7,
+          "H_POS_ENT": 0
+     },
+     "PARAPA_CAVE_S_MN": {
+          "POS": 7,
+          "H_POS_ENT": 3
+     },
+     "JUMP_CAVE_N_MN": {
+          "POS": 9,
+          "H_POS_ENT": 0
+     },
+     "JUMP_CAVE_S_MN": {
+          "POS": 11,
+          "H_POS_ENT": 3
+     },
+     "CAVE_200P_MN": {
+          "POS": 12,
+          "H_POS_ENT": 0
+     },
+     "MEDICINE_CAVE_MN": {
+          "POS": 14,
+          "H_POS_ENT": 0
+     },
+     "HEART_CAVE_MN": {
+          "POS": 16,
+          "H_POS_ENT": 0
+     },
+     "FAIRY_CAVE_HOLE_MN": {
+          "POS": 18,
+          "H_POS_ENT": 0
+     },
+     "FAIRY_CAVE_MN": {
+          "POS": 19,
+          "H_POS_ENT": 3
+     },
+     "LIFE_TOWN_BRIDGE_NS_MN": {
+          "POS": 1,
+          "H_POS_ENT": 0
+     },
+     "LIFE_TOWN_BRIDGE_EW_MN": {
+          "POS": 2,
+          "H_POS_ENT": 0
+     },
+     "DM_BRIDGE_EXIT_W_MN": {
+          "POS": 4,
+          "H_POS_ENT": 0
+     },
+     "DM_BRIDGE_EXIT_E_MN": {
+          "POS": 5,
+          "H_POS_ENT": 3
+     },
+     "MEDICINE_CAVE_FAIRY_MN": {
+          "POS": 20,
+          "H_POS_ENT": 1
+     },
+     "RED_JAR_SWAMP_MN": {
+          "POS": 51,
+          "H_POS_ENT": 2
+     },
+     "LIFE_TOWN_FAIRY_MN": {
+          "POS": 20,
+          "H_POS_ENT": 3
+     },
+     "LOST_WOODS_2_MN": {
+          "POS": 21,
+          "H_POS_ENT": 1
+     },
+     "LOST_WOODS_3_MN": {
+          "POS": 22,
+          "H_POS_ENT": 1
+     },
+     "LOST_WOODS_4_MN": {
+          "POS": 23,
+          "H_POS_ENT": 1
+     },
+     "LOST_WOODS_5_MN": {
+          "POS": 23,
+          "H_POS_ENT": 1
+     },
+     "P2_RED_JAR_MN": {
+          "POS": 57,
+          "H_POS_ENT": 3
+     },
+     "RED_JAR_BEACH_MN": {
+          "POS": 57,
+          "H_POS_ENT": 0
+     },
+     "EX_LIFE_BEACH_MN": {
+          "POS": 57,
+          "H_POS_ENT": 2
+     },
+     "RAFT_DOCK_MN": {
+          "POS": 41,
+          "H_POS_ENT": 0
+     },
+     "DM_ENTRANCE_MN": {
+          "POS": 42,
+          "H_POS_ENT": 0
+     },
+     "DM_EXIT_MN": {
+          "POS": 43,
+          "H_POS_ENT": 0
+     },
+     "KINGS_TOMB_MN": {
+          "POS": 60,
+          "H_POS_ENT": 0
+     },
+     "SHIELD_TOWN_MN": {
+          "POS": 2,
+          "H_POS_ENT": 3
+     },
+     "JUMP_TOWN_MN": {
+          "POS": 5,
+          "H_POS_ENT": 3
+     },
+     "LIFE_TOWN_S_MN": {
+          "POS": 6,
+          "H_POS_ENT": 0
+     },
+     "LIFE_TOWN_N_MN": {
+          "POS": 8,
+          "H_POS_ENT": 3
+     },
+     "BAGUS_CABIN_MN": {
+          "POS": 24,
+          "H_POS_ENT": 0
+     },
+     "FAIRY_TOWN_MN": {
+          "POS": 11,
+          "H_POS_ENT": 3
+     },
+     "P1_MN": {
+          "POS": 0,
+          "H_POS_ENT": 0
+     },
+     "P2_MN": {
+          "POS": 14,
+          "H_POS_ENT": 0
+     },
+     "P3_MN": {
+          "POS": 0,
+          "H_POS_ENT": 0
+     },
+     "NORTH_CASTLE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 1,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "TROPHY_CAVE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "FOREST_50P_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "MAGIC_CAVE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "FOREST_100P_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "HEART_CLIFF_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LOST_WOODS_1_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "BUBBLE_CLIFF_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 1,
+          "FALL_IN": 0
+     },
+     "EX_LIFE_SWAMP_1_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "RED_JAR_CEM_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "PARAPA_CAVE_N_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "PARAPA_CAVE_S_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "JUMP_CAVE_N_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "JUMP_CAVE_S_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "CAVE_200P_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "MEDICINE_CAVE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "HEART_CAVE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "FAIRY_CAVE_HOLE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 1
+     },
+     "FAIRY_CAVE_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LIFE_TOWN_BRIDGE_NS_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 1,
+          "FALL_IN": 0
+     },
+     "LIFE_TOWN_BRIDGE_EW_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 1,
+          "FALL_IN": 0
+     },
+     "DM_BRIDGE_EXIT_W_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 1,
+          "FALL_IN": 0
+     },
+     "DM_BRIDGE_EXIT_E_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 1,
+          "FALL_IN": 0
+     },
+     "MEDICINE_CAVE_FAIRY_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "RED_JAR_SWAMP_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LIFE_TOWN_FAIRY_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LOST_WOODS_2_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LOST_WOODS_3_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LOST_WOODS_4_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LOST_WOODS_5_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "P2_RED_JAR_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "RED_JAR_BEACH_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "EX_LIFE_BEACH_WN": {
+          "POS": 0,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "RAFT_DOCK_WN": {
+          "POS": 2,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "DM_ENTRANCE_WN": {
+          "POS": 1,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "DM_EXIT_WN": {
+          "POS": 1,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "KINGS_TOMB_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "SHIELD_TOWN_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "JUMP_TOWN_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LIFE_TOWN_S_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "LIFE_TOWN_N_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "BAGUS_CABIN_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "FAIRY_TOWN_WN": {
+          "POS": 4,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "P1_WN": {
+          "POS": 12,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "P2_WN": {
+          "POS": 12,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     },
+     "P3_WN": {
+          "POS": 16,
+          "RIGHT_SIDE_ENTER": 0,
+          "PASS_THROUGH": 0,
+          "FALL_IN": 0
+     }
+}
+┌────────────────────────┐
+│ WEST HYRULE MEMORY MAP │
+└────────────────────────┘
+┌────────────────────────┬────────┐
+│        (index)         │ Values │
+├────────────────────────┼────────┤
+│     NORTH_CASTLE_Y     │ 17967  │
+│     TROPHY_CAVE_Y      │ 17968  │
+│      FOREST_50P_Y      │ 17969  │
+│      MAGIC_CAVE_Y      │ 17970  │
+│     FOREST_100P_Y      │ 17971  │
+│     HEART_CLIFF_Y      │ 17972  │
+│     LOST_WOODS_1_Y     │ 17973  │
+│     BUBBLE_CLIFF_Y     │ 17974  │
+│   EX_LIFE_SWAMP_1_Y    │ 17975  │
+│     RED_JAR_CEM_Y      │ 17976  │
+│    PARAPA_CAVE_N_Y     │ 17977  │
+│    PARAPA_CAVE_S_Y     │ 17978  │
+│     JUMP_CAVE_N_Y      │ 17979  │
+│     JUMP_CAVE_S_Y      │ 17980  │
+│      CAVE_200P_Y       │ 17981  │
+│    MEDICINE_CAVE_Y     │ 17982  │
+│      HEART_CAVE_Y      │ 17983  │
+│   FAIRY_CAVE_HOLE_Y    │ 17984  │
+│      FAIRY_CAVE_Y      │ 17985  │
+│ LIFE_TOWN_BRIDGE_NS_Y  │ 17986  │
+│ LIFE_TOWN_BRIDGE_EW_Y  │ 17987  │
+│   DM_BRIDGE_EXIT_W_Y   │ 17988  │
+│   DM_BRIDGE_EXIT_E_Y   │ 17989  │
+│ MEDICINE_CAVE_FAIRY_Y  │ 17990  │
+│    RED_JAR_SWAMP_Y     │ 17991  │
+│   LIFE_TOWN_FAIRY_Y    │ 17992  │
+│     LOST_WOODS_2_Y     │ 17993  │
+│     LOST_WOODS_3_Y     │ 17994  │
+│     LOST_WOODS_4_Y     │ 17995  │
+│     LOST_WOODS_5_Y     │ 17996  │
+│      P2_RED_JAR_Y      │ 17997  │
+│    RED_JAR_BEACH_Y     │ 17998  │
+│    EX_LIFE_BEACH_Y     │ 17999  │
+│      RAFT_DOCK_Y       │ 18008  │
+│     DM_ENTRANCE_Y      │ 18009  │
+│       DM_EXIT_Y        │ 18010  │
+│      KINGS_TOMB_Y      │ 18011  │
+│     SHIELD_TOWN_Y      │ 18012  │
+│      JUMP_TOWN_Y       │ 18014  │
+│     LIFE_TOWN_S_Y      │ 18015  │
+│     LIFE_TOWN_N_Y      │ 18016  │
+│     BAGUS_CABIN_Y      │ 18017  │
+│      FAIRY_TOWN_Y      │ 18018  │
+│          P1_Y          │ 18019  │
+│          P2_Y          │ 18020  │
+│          P3_Y          │ 18021  │
+│     NORTH_CASTLE_X     │ 18030  │
+│     TROPHY_CAVE_X      │ 18031  │
+│      FOREST_50P_X      │ 18032  │
+│      MAGIC_CAVE_X      │ 18033  │
+│     FOREST_100P_X      │ 18034  │
+│     HEART_CLIFF_X      │ 18035  │
+│     LOST_WOODS_1_X     │ 18036  │
+│     BUBBLE_CLIFF_X     │ 18037  │
+│   EX_LIFE_SWAMP_1_X    │ 18038  │
+│     RED_JAR_CEM_X      │ 18039  │
+│    PARAPA_CAVE_N_X     │ 18040  │
+│    PARAPA_CAVE_S_X     │ 18041  │
+│     JUMP_CAVE_N_X      │ 18042  │
+│     JUMP_CAVE_S_X      │ 18043  │
+│      CAVE_200P_X       │ 18044  │
+│    MEDICINE_CAVE_X     │ 18045  │
+│      HEART_CAVE_X      │ 18046  │
+│   FAIRY_CAVE_HOLE_X    │ 18047  │
+│      FAIRY_CAVE_X      │ 18048  │
+│ LIFE_TOWN_BRIDGE_NS_X  │ 18049  │
+│ LIFE_TOWN_BRIDGE_EW_X  │ 18050  │
+│   DM_BRIDGE_EXIT_W_X   │ 18051  │
+│   DM_BRIDGE_EXIT_E_X   │ 18052  │
+│ MEDICINE_CAVE_FAIRY_X  │ 18053  │
+│    RED_JAR_SWAMP_X     │ 18054  │
+│   LIFE_TOWN_FAIRY_X    │ 18055  │
+│     LOST_WOODS_2_X     │ 18056  │
+│     LOST_WOODS_3_X     │ 18057  │
+│     LOST_WOODS_4_X     │ 18058  │
+│     LOST_WOODS_5_X     │ 18059  │
+│      P2_RED_JAR_X      │ 18060  │
+│    RED_JAR_BEACH_X     │ 18061  │
+│    EX_LIFE_BEACH_X     │ 18062  │
+│      RAFT_DOCK_X       │ 18071  │
+│     DM_ENTRANCE_X      │ 18072  │
+│       DM_EXIT_X        │ 18073  │
+│      KINGS_TOMB_X      │ 18074  │
+│     SHIELD_TOWN_X      │ 18075  │
+│      JUMP_TOWN_X       │ 18077  │
+│     LIFE_TOWN_S_X      │ 18078  │
+│     LIFE_TOWN_N_X      │ 18079  │
+│     BAGUS_CABIN_X      │ 18080  │
+│      FAIRY_TOWN_X      │ 18081  │
+│          P1_X          │ 18082  │
+│          P2_X          │ 18083  │
+│          P3_X          │ 18084  │
+│    NORTH_CASTLE_MN     │ 18093  │
+│     TROPHY_CAVE_MN     │ 18094  │
+│     FOREST_50P_MN      │ 18095  │
+│     MAGIC_CAVE_MN      │ 18096  │
+│     FOREST_100P_MN     │ 18097  │
+│     HEART_CLIFF_MN     │ 18098  │
+│    LOST_WOODS_1_MN     │ 18099  │
+│    BUBBLE_CLIFF_MN     │ 18100  │
+│   EX_LIFE_SWAMP_1_MN   │ 18101  │
+│     RED_JAR_CEM_MN     │ 18102  │
+│    PARAPA_CAVE_N_MN    │ 18103  │
+│    PARAPA_CAVE_S_MN    │ 18104  │
+│     JUMP_CAVE_N_MN     │ 18105  │
+│     JUMP_CAVE_S_MN     │ 18106  │
+│      CAVE_200P_MN      │ 18107  │
+│    MEDICINE_CAVE_MN    │ 18108  │
+│     HEART_CAVE_MN      │ 18109  │
+│   FAIRY_CAVE_HOLE_MN   │ 18110  │
+│     FAIRY_CAVE_MN      │ 18111  │
+│ LIFE_TOWN_BRIDGE_NS_MN │ 18112  │
+│ LIFE_TOWN_BRIDGE_EW_MN │ 18113  │
+│  DM_BRIDGE_EXIT_W_MN   │ 18114  │
+│  DM_BRIDGE_EXIT_E_MN   │ 18115  │
+│ MEDICINE_CAVE_FAIRY_MN │ 18116  │
+│    RED_JAR_SWAMP_MN    │ 18117  │
+│   LIFE_TOWN_FAIRY_MN   │ 18118  │
+│    LOST_WOODS_2_MN     │ 18119  │
+│    LOST_WOODS_3_MN     │ 18120  │
+│    LOST_WOODS_4_MN     │ 18121  │
+│    LOST_WOODS_5_MN     │ 18122  │
+│     P2_RED_JAR_MN      │ 18123  │
+│    RED_JAR_BEACH_MN    │ 18124  │
+│    EX_LIFE_BEACH_MN    │ 18125  │
+│      RAFT_DOCK_MN      │ 18134  │
+│     DM_ENTRANCE_MN     │ 18135  │
+│       DM_EXIT_MN       │ 18136  │
+│     KINGS_TOMB_MN      │ 18137  │
+│     SHIELD_TOWN_MN     │ 18138  │
+│      JUMP_TOWN_MN      │ 18140  │
+│     LIFE_TOWN_S_MN     │ 18141  │
+│     LIFE_TOWN_N_MN     │ 18142  │
+│     BAGUS_CABIN_MN     │ 18143  │
+│     FAIRY_TOWN_MN      │ 18144  │
+│         P1_MN          │ 18145  │
+│         P2_MN          │ 18146  │
+│         P3_MN          │ 18147  │
+│    NORTH_CASTLE_WN     │ 18156  │
+│     TROPHY_CAVE_WN     │ 18157  │
+│     FOREST_50P_WN      │ 18158  │
+│     MAGIC_CAVE_WN      │ 18159  │
+│     FOREST_100P_WN     │ 18160  │
+│     HEART_CLIFF_WN     │ 18161  │
+│    LOST_WOODS_1_WN     │ 18162  │
+│    BUBBLE_CLIFF_WN     │ 18163  │
+│   EX_LIFE_SWAMP_1_WN   │ 18164  │
+│     RED_JAR_CEM_WN     │ 18165  │
+│    PARAPA_CAVE_N_WN    │ 18166  │
+│    PARAPA_CAVE_S_WN    │ 18167  │
+│     JUMP_CAVE_N_WN     │ 18168  │
+│     JUMP_CAVE_S_WN     │ 18169  │
+│      CAVE_200P_WN      │ 18170  │
+│    MEDICINE_CAVE_WN    │ 18171  │
+│     HEART_CAVE_WN      │ 18172  │
+│   FAIRY_CAVE_HOLE_WN   │ 18173  │
+│     FAIRY_CAVE_WN      │ 18174  │
+│ LIFE_TOWN_BRIDGE_NS_WN │ 18175  │
+│ LIFE_TOWN_BRIDGE_EW_WN │ 18176  │
+│  DM_BRIDGE_EXIT_W_WN   │ 18177  │
+│  DM_BRIDGE_EXIT_E_WN   │ 18178  │
+│ MEDICINE_CAVE_FAIRY_WN │ 18179  │
+│    RED_JAR_SWAMP_WN    │ 18180  │
+│   LIFE_TOWN_FAIRY_WN   │ 18181  │
+│    LOST_WOODS_2_WN     │ 18182  │
+│    LOST_WOODS_3_WN     │ 18183  │
+│    LOST_WOODS_4_WN     │ 18184  │
+│    LOST_WOODS_5_WN     │ 18185  │
+│     P2_RED_JAR_WN      │ 18186  │
+│    RED_JAR_BEACH_WN    │ 18187  │
+│    EX_LIFE_BEACH_WN    │ 18188  │
+│      RAFT_DOCK_WN      │ 18197  │
+│     DM_ENTRANCE_WN     │ 18198  │
+│       DM_EXIT_WN       │ 18199  │
+│     KINGS_TOMB_WN      │ 18200  │
+│     SHIELD_TOWN_WN     │ 18201  │
+│      JUMP_TOWN_WN      │ 18203  │
+│     LIFE_TOWN_S_WN     │ 18204  │
+│     LIFE_TOWN_N_WN     │ 18205  │
+│     BAGUS_CABIN_WN     │ 18206  │
+│     FAIRY_TOWN_WN      │ 18207  │
+│         P1_WN          │ 18208  │
+│         P2_WN          │ 18209  │
+│         P3_WN          │ 18210  │
+└────────────────────────┴────────┘
+┌─────────────────┐
+│ WEST HYRULE MAP │
+└─────────────────┘
+
+RED_JAR_BEACH                                                                                                                                                                  
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                          TROPHY_CAVE                                                                P1                                      
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+    JUMP_TOWN                                                                                                                                                              
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                PARAPA_CAVE_N                                                                  
+
+                                                                          FOREST_50P                                                                                        
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                              PARAPA_CAVE_S                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                              NORTH_CASTLE                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                            SHIELD_TOWN                                                                      
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                          BUBBLE_CLIFF                                        
+
+  JUMP_CAVE_N                                                                                                                                                                
+
+                                                                                                                                                                    
+
+                                MAGIC_CAVE                                                                                                                                  
+
+                                                                                                                                                                    
+
+      JUMP_CAVE_S                                                                    CAVE_200P                              HEART_CAVE                                                      
+
+                                                                                                                                                                    
+
+              MEDICINE_CAVE_FAIRY      P2                                                                                                    HEART_CLIFF                                      
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                  RED_JAR_SWAMP                                                                                                                                
+
+                                                                          P2_RED_JAR                                                                                        
+
+                  MEDICINE_CAVE                                                                                                                                                
+
+                                                                                                                                                                    
+
+                EX_LIFE_SWAMP_1                                                                                                                                                  
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                        FAIRY_TOWN                                          
+
+                                        LOST_WOODS_2BAGUS_CABIN                                                                                                                        
+
+                                  LOST_WOODS_3      LOST_WOODS_1  LOST_WOODS_5                                                                          RAFT_DOCK                                        
+
+                                      LOST_WOODS_4                                                                                                                            
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                LIFE_TOWN_BRIDGE_NS                                                                                                                                  
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                        FOREST_100P                                                                                                                          
+
+                                                    LIFE_TOWN_BRIDGE_EW            LIFE_TOWN_FAIRY                                                                                                
+
+                                                                                                    KINGS_TOMB                                                              
+
+                LIFE_TOWN_N                                                                                                                                                  
+
+                                                                                                                                                                    
+
+                LIFE_TOWN_S                                                                                                                                                  
+
+                                                                                                RED_JAR_CEM                                                                  
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                    DM_ENTRANCE                                                                                                                                              
+
+                                          DM_EXIT                                                        FAIRY_CAVE_HOLE                                                              
+
+                                                    DM_BRIDGE_EXIT_W              DM_BRIDGE_EXIT_E                                                                                              
+
+                                                                                                                  P3                                                
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                            EX_LIFE_BEACH                                        FAIRY_CAVE                                            
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+                                                                                                                                                                    
+
+
