@@ -1,22 +1,24 @@
 const Y_MAPPING = {
-    POS:        0b01111111,
-    EXTERNAL:   0b10000000
+    POS:                0b01111111,
+    EXTERNAL:           0b10000000
 }
 
 const X_MAPPING = {
-    POS:        0b00111111,
-    CAVE_SEG:   0b01000000,
-    RESERVED:   0b100000000
+    POS:                0b00111111,
+    CAVE_SEG:           0b01000000,
+    RESERVED:           0b100000000
 }
 
 const MN_MAPPING = {
-    POS:        0b00111111,
-    H_POS_ENT:  0b11000000
+    POS:                0b00111111,
+    H_POS_ENT:          0b11000000
 }
 
 const WN_MAPPING = {
-    POS: 0b00011111,
-    FLAGS: 0b11100000
+    POS:                0b00011111,
+    RIGHT_SIDE_ENTER:   0b00100000,
+    PASS_THROUGH:       0b01000000,
+    FALL_IN:            0b10000000
 }
 
 const WEST_HYRULE = {

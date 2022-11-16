@@ -55,4 +55,24 @@ const transformMapPointers = (mapObject) => {
     return map;
 }
 
+const printDebugMap = (mapObject) => {
+    console.log();
+    for (let y = 0; y < 82; y++) {
+        for (let x = 0; x < 82; x++) {
+            let found = Object.keys(mapObject).find(key => {
+                return mapObject[key].x === x && mapObject[key].y === y
+            });
+    
+            if (Object.keys(mapObject).includes(found)) {
+                process.stdout.write(found);
+            } else {
+                process.stdout.write("  ");
+            }
+        }
+        console.log("\n");
+    }
+    console.log();
+}
+
 exports.transformMapPointers = transformMapPointers;
+exports.printDebugMap = printDebugMap;
