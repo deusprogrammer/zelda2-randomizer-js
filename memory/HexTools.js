@@ -46,7 +46,7 @@ const generateMemoryMap = (map, start = 0) => {
             offset = offset + value.skip;
         }
 
-        memoryMap[key] = offset;
+        memoryMap[key] = offset.toString(16);
 
         offset += value.size;
     }
