@@ -26,6 +26,10 @@ const maskBits = (bytes, mask) => {
     return maskedValue;
 }
 
+const rebuildByte = (map, object) => {
+    
+};
+
 const generateMemoryMap = (map, start = 0) => {
     let offset = start;
     let memoryMap = {};
@@ -48,6 +52,31 @@ const generateMemoryMap = (map, start = 0) => {
     }
 
     return memoryMap;
+}
+
+const hexArrayExtractor = (objDesc, buffer, start = 0, end = null) => {
+    let extracted = [];
+
+    if (!end) {
+        end = start + buffer.length;
+    }
+
+    for (let offset = start, i = 0; offset < end; offset += objDesc.size, i++) {
+        let bytes = buffer.slice(offset, offset + objDesc.size);
+        let data = littleEndianConvert(bytes);
+
+        if (objDesc.mapping) {
+            data = byteMaskExtractor(objDesc.mapping, data);
+            if (objDesc.expand) {
+                extracted[i] = data;
+                continue;
+            }
+        }
+
+        extracted[i] = data;
+    }
+
+    return extracted;
 }
 
 const hexExtractor = (map, buffer, start = 0) => {
@@ -98,4 +127,7 @@ const byteMaskExtractor = (fieldMap, bytes) => {
 exports.maskBits = maskBits;
 exports.generateMemoryMap = generateMemoryMap;
 exports.hexExtractor = hexExtractor;
+exports.hexArrayExtractor = hexArrayExtractor;
 exports.byteMaskExtractor = byteMaskExtractor;
+exports.bigEndianConvert = bigEndianConvert;
+exports.littleEndianConvert = littleEndianConvert;

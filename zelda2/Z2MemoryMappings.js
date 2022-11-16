@@ -21,6 +21,56 @@ const WN_MAPPING = {
     FALL_IN:            0b10000000
 }
 
+const OVERWORLD_SPRITE_MAPPING = {
+    size: 1,
+    mapping: {
+        LENGTH:         0b11110000,
+        TYPE:           0b00001111
+    }
+}
+
+const OVERWORLD_SPRITE_TYPES = [
+    "Town",
+    "Cave",
+    "Palace",
+    "Bridge",
+    "Desert",
+    "Grass",
+    "Forest",
+    "Swamp",
+    "Graveyard",
+    "Road",
+    "Lava",
+    "Mountain",
+    "Water",
+    "Water (walkable)",
+    "Rock",
+    "Spider"
+]
+
+const OVERWORLD_SPRITE_SYMBOLS = [
+    "┼",
+    "█",
+    "╬",
+    "=",
+    "D",
+    ".",
+    "F",
+    "s",
+    "+",
+    " ",
+    ";",
+    "^",
+    "w",
+    "X",
+    "O",
+    "≡"
+]
+
+const WEST_HYRULE_MAP_RANDO_OFFSET = 0x7480;
+const WEST_HYRULE_MAP_VANILLA_OFFSET = 0x506C;
+const WEST_HYRULE_MAP_LENGTH = 0x538C - 0x506C;
+
 const WEST_HYRULE = {
     NORTH_CASTLE_Y: {offset: 0x462F, mapping: Y_MAPPING},
     TROPHY_CAVE_Y: {mapping: Y_MAPPING},
@@ -209,3 +259,15 @@ const WEST_HYRULE = {
 }
 
 exports.WEST_HYRULE = WEST_HYRULE;
+exports.OVERWORLD_SPRITE_MAPPING        = OVERWORLD_SPRITE_MAPPING;
+exports.OVERWORLD_SPRITE_SYMBOLS        = OVERWORLD_SPRITE_SYMBOLS;
+exports.OVERWORLD_SPRITE_TYPES          = OVERWORLD_SPRITE_TYPES;
+
+exports.WEST_HYRULE_MAP_RANDO_OFFSET    = WEST_HYRULE_MAP_RANDO_OFFSET;
+exports.WEST_HYRULE_MAP_VANILLA_OFFSET  = WEST_HYRULE_MAP_VANILLA_OFFSET;
+
+exports.WEST_HYRULE_MAP_LENGTH          = WEST_HYRULE_MAP_LENGTH;
+
+// 665C - 6942 - Death Mountain
+// 9056 - 936F - East Hyrule
+// A65C - A942 - Maze Island

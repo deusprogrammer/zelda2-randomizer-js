@@ -1,3 +1,5 @@
+const {snakeCaseToCamelCase} = require('../Utils');
+
 const convertMemoryAddress = (memoryAddress) => {
     return (memoryAddress-0x8000) + 1*0x4000 + 0x10;
 }
@@ -21,25 +23,33 @@ const getWorldNumber = (value) => {
 const EXT_MAP = {
     X: {
         key: "x",
+        valueKey: "POS",
+        expandFields: true,
         transform: getX
     },
     Y: {
         key: "y",
+        valueKey: "POS",
+        expandFields: true,
         transform: getY
     },
     MN: {
         key: "mapNumber",
+        valueKey: "POS",
+        expandFields: true,
         transform: getMapNumber
     },
     WN: {
         key: "worldNumber",
+        valueKey: "POS",
+        expandFields: true,
         transform: getWorldNumber
     }
 }
 
 const transformMapPointers = (mapObject) => {
     let map = {};
-    for (key in mapObject) {
+    for (let key in mapObject) {
         let value = mapObject[key];
     
         let ext = key.slice(key.lastIndexOf("_") + 1);
@@ -49,10 +59,25 @@ const transformMapPointers = (mapObject) => {
             map[pre] = {};
         }
     
-        map[pre][EXT_MAP[ext].key] = EXT_MAP[ext].transform(value.POS);
+        const {expandFields, valueKey, transform, key: fieldKey} = EXT_MAP[ext];
+        map[pre][fieldKey] = transform(value[valueKey]);
+
+        if (expandFields) {
+            for (let subKey in value) {
+                if (subKey === valueKey) {
+                    continue;
+                }
+
+                map[pre][snakeCaseToCamelCase(subKey)] = value[subKey];
+            }
+        }
     }
 
     return map;
+}
+
+const writeValue = (valueKey, valueMapping, value) => {
+
 }
 
 const printDebugMap = (mapObject) => {

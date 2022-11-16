@@ -15,3 +15,30 @@ console.box = (value) => {
     process.stdout.write("┘");
     console.log();
 }
+
+const snakeCaseToCamelCase = (value) => {
+    let newName = "";
+    let state = "LOWER";
+    for (let c of value) {
+        if (c === "_") {
+            state = "UPPER";
+            continue;
+        }
+
+        switch (state) {
+            case "LOWER":
+                c = c.toLowerCase();
+                break;
+            case "UPPER":
+                c = c.toUpperCase();
+                state = "LOWER";
+                break;
+        }
+
+        newName += c;
+    }
+
+    return newName;
+}
+
+exports.snakeCaseToCamelCase = snakeCaseToCamelCase;
