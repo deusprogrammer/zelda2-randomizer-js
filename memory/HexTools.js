@@ -26,6 +26,30 @@ const maskBits = (bytes, mask) => {
     return maskedValue;
 }
 
+const generateMemoryMap = (map, start = 0) => {
+    let offset = start;
+    let memoryMap = {};
+    for (key in map) {
+        let value = map[key];
+
+        if (!value.size) {
+            value.size = 1;
+        }
+
+        if (value.offset) {
+            offset = start + value.offset;
+        } else if (value.skip) {
+            offset = offset + value.skip;
+        }
+
+        memoryMap[key] = offset;
+
+        offset += value.size;
+    }
+
+    return memoryMap;
+}
+
 const hexExtractor = (map, buffer, valueTransform = null, start = 0) => {
     let offset = start;
     let extracted = {};
@@ -74,5 +98,6 @@ const byteMaskExtractor = (fieldMap, bytes) => {
 }
 
 exports.maskBits = maskBits;
+exports.generateMemoryMap = generateMemoryMap;
 exports.hexExtractor = hexExtractor;
 exports.byteMaskExtractor = byteMaskExtractor;

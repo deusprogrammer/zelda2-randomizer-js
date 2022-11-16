@@ -1,4 +1,4 @@
-const { maskBits } = require("../memory/fieldExtractor");
+const { maskBits } = require("../memory/HexTools");
 
 const convertMemoryAddress = (memoryAddress) => {
     return (memoryAddress-0x8000) + 1*0x4000 + 0x10;
