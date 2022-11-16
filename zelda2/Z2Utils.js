@@ -1,23 +1,21 @@
-const { maskBits } = require("../memory/HexTools");
-
 const convertMemoryAddress = (memoryAddress) => {
     return (memoryAddress-0x8000) + 1*0x4000 + 0x10;
 }
 
-const getX = (byte) => {
-    return maskBits(byte, 0b00111111);
+const getX = (value) => {
+    return value;
 }
 
-const getY = (byte) => {
-    return Math.max(maskBits(byte, 0b01111111) - 29, 0);
+const getY = (value) => {
+    return Math.max(value - 29, 0);
 }
 
-const getMapNumber = (byte) => {
-    return maskBits(byte, 0b00111111);
+const getMapNumber = (value) => {
+    return value;
 }
 
-const getWorldNumber = (byte) => {
-    return maskBits(byte, 0b00011111);
+const getWorldNumber = (value) => {
+    return value;
 }
 
 const EXT_MAP = {
@@ -51,7 +49,7 @@ const transformMapPointers = (mapObject) => {
             map[pre] = {};
         }
     
-        map[pre][EXT_MAP[ext].key] = EXT_MAP[ext].transform(value);
+        map[pre][EXT_MAP[ext].key] = EXT_MAP[ext].transform(value.POS);
     }
 
     return map;

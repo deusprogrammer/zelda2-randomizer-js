@@ -10,12 +10,10 @@ let headers = hexExtractor(NES_HEADER_MAP, rom);
 console.table(headers);
 
 let westHyrule = hexExtractor(WEST_HYRULE, rom);
+
+console.table(westHyrule);
+
 let westHyruleMap = transformMapPointers(westHyrule);
-let memoryMap = generateMemoryMap(WEST_HYRULE);
-
-console.table(westHyruleMap);
-
-console.table(memoryMap);
 
 for (let y = 0; y < 82; y++) {
     for (let x = 0; x < 82; x++) {
@@ -31,3 +29,7 @@ for (let y = 0; y < 82; y++) {
     }
     console.log("\n");
 }
+
+let memoryMap = generateMemoryMap(WEST_HYRULE);
+
+console.table(memoryMap);

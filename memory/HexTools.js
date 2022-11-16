@@ -29,7 +29,7 @@ const maskBits = (bytes, mask) => {
 const generateMemoryMap = (map, start = 0) => {
     let offset = start;
     let memoryMap = {};
-    for (key in map) {
+    for (let key in map) {
         let value = map[key];
 
         if (!value.size) {
@@ -50,10 +50,10 @@ const generateMemoryMap = (map, start = 0) => {
     return memoryMap;
 }
 
-const hexExtractor = (map, buffer, valueTransform = null, start = 0) => {
+const hexExtractor = (map, buffer, start = 0) => {
     let offset = start;
     let extracted = {};
-    for (key in map) {
+    for (let key in map) {
         let value = map[key];
 
         if (!value.size) {
@@ -66,17 +66,11 @@ const hexExtractor = (map, buffer, valueTransform = null, start = 0) => {
             offset = offset + value.skip;
         }
 
-        console.log(`${key}(${offset.toString(16)})`);
-
         let bytes = buffer.slice(offset, offset + value.size);
         let data = littleEndianConvert(bytes);
 
         if (value.mapping) {
             data = byteMaskExtractor(value.mapping, data);
-        }
-
-        if (valueTransform) {
-            data = valueTransform(data);
         }
 
         extracted[key] = data;
@@ -90,7 +84,7 @@ const hexExtractor = (map, buffer, valueTransform = null, start = 0) => {
 const byteMaskExtractor = (fieldMap, bytes) => {
     let fields = {};
     bytes = bytes >>> 0;
-    for (key in fieldMap) {
+    for (let key in fieldMap) {
         let mask = fieldMap[key];
         fields[key] = maskBits(bytes, mask);
     }
