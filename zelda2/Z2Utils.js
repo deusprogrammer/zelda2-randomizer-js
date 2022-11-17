@@ -50,10 +50,12 @@ const printSpriteMap = (mapObject, locations) => {
                 return locations[key].x === x && locations[key].y - 29 === y
             });
     
+            let c = OVERWORLD_SPRITE_SYMBOLS[sprite.type] 
             if (found) {
-                process.stdout.write(colorize(5, OVERWORLD_SPRITE_SYMBOLS[sprite.type]));
+                c = [9, 12, 13].includes(sprite.type) ? c.replace(' ', 'X') : c;
+                process.stdout.write(colorize(5, c));
             } else {
-                process.stdout.write(OVERWORLD_SPRITE_SYMBOLS[sprite.type]);
+                process.stdout.write(c);
             }
         }
     }
