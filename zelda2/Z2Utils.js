@@ -1,5 +1,9 @@
 const { OVERWORLD_SPRITE_SYMBOLS } = require("./Z2MemoryMappings");
 
+const colorize = (color, output) => {
+    return ['\033[', color, 'm', output, '\033[0m'].join('');
+}
+
 const convertMemoryAddress = (memoryAddress) => {
     return (memoryAddress-0x8000) + 1*0x4000 + 0x10;
 }
@@ -31,14 +35,26 @@ const printDebugMap = (mapObject) => {
     console.log();
 }
 
-const printSpriteMap = (mapObject) => {
+const printSpriteMap = (mapObject, locations) => {
     let i = 0;
     for (let sprite of mapObject) {
         for (let j = 0; j < sprite.length + 1; j++) {
+            x = i % 64;
+            y = Math.ceil(i / 64);
+
             if (i++ % 64 === 0) {
                 console.log();
             }
-            process.stdout.write(OVERWORLD_SPRITE_SYMBOLS[sprite.type]);
+
+            let found = Object.keys(locations).find(key => {
+                return locations[key].x === x && locations[key].y - 29 === y
+            });
+    
+            if (found) {
+                process.stdout.write(colorize(5, OVERWORLD_SPRITE_SYMBOLS[sprite.type]));
+            } else {
+                process.stdout.write(OVERWORLD_SPRITE_SYMBOLS[sprite.type]);
+            }
         }
     }
     console.log();

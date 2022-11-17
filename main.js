@@ -43,31 +43,17 @@ let westHyruleMap = hexExtractor(WEST_HYRULE_LOCATION_MAPPINGS, rom);
 console.box("WEST HYRULE MAP LOCATIONS [DATA]");
 console.table(westHyruleMap);
 
-console.box("WEST HYRULE MAP LOCATIONS [GRAPHICAL]");
-printDebugMap(westHyruleMap);
-
 let westHyruleSpriteMap = hexArrayExtractor(OVERWORLD_SPRITE_MAPPING, rom, WEST_HYRULE_MAP_OFFSET, WEST_HYRULE_MAP_OFFSET + WEST_HYRULE_MAP_LENGTH);
 
 console.box("WEST HYRULE SPRITE MAP [GRAPHICAL]");
-printSpriteMap(westHyruleSpriteMap);
+printSpriteMap(westHyruleSpriteMap, westHyruleMap);
 
 let eastHyruleMap = hexExtractor(EAST_HYRULE_LOCATION_MAPPINGS, rom);
 
 console.box("EAST HYRULE MAP LOCATIONS [DATA]");
 console.table(eastHyruleMap);
 
-console.box("EAST HYRULE MAP LOCATIONS [GRAPHICAL]");
-printDebugMap(eastHyruleMap);
-
 let eastHyruleSpriteMap = hexArrayExtractor(OVERWORLD_SPRITE_MAPPING, rom, EAST_HYRULE_MAP_OFFSET, EAST_HYRULE_MAP_OFFSET + EAST_HYRULE_MAP_LENGTH);
 
 console.box("EAST HYRULE SPRITE MAP [GRAPHICAL]");
-i = 0;
-for (let sprite of eastHyruleSpriteMap) {
-    for (let j = 0; j < sprite.length + 1; j++) {
-        if (i++ % 64 === 0) {
-            console.log();
-        }
-        process.stdout.write(OVERWORLD_SPRITE_SYMBOLS[sprite.type]);
-    }
-}
+printSpriteMap(eastHyruleSpriteMap, eastHyruleMap);
