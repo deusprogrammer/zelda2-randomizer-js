@@ -41,6 +41,7 @@ const printSpriteMap = (mapObject) => {
             process.stdout.write(OVERWORLD_SPRITE_SYMBOLS[sprite.type]);
         }
     }
+    console.log();
 }
 
 exports.printDebugMap = printDebugMap;
