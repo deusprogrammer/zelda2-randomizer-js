@@ -5,6 +5,14 @@ const convertMemoryAddress = (memoryAddress) => {
 }
 
 const printDebugMap = (mapObject) => {
+    let legend = {};
+    Object.keys(mapObject).forEach((key, index) => {
+        legend[key] = index;
+    })
+
+    console.box("Legend");
+    console.table(legend);
+
     console.log();
     for (let y = 0; y < 82; y++) {
         for (let x = 0; x < 82; x++) {
@@ -13,7 +21,7 @@ const printDebugMap = (mapObject) => {
             });
     
             if (Object.keys(mapObject).includes(found)) {
-                process.stdout.write("X");
+                process.stdout.write(legend[found].toString().padStart(2, "0"));
             } else {
                 process.stdout.write("  ");
             }
