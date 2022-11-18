@@ -1,3 +1,33 @@
+const objectDig = (o, transform) => {
+    if (o instanceof Object || o instanceof Array) {
+        let modified = o instanceof Object ? {} : [];
+        for (const key in o) {
+            let value = o[key];
+            modified[key] = objectDig(value, transform);
+        }
+        return modified;
+    } else {
+        return transform(o);
+    }
+}
+
+const getValueFromMap = (obj, path) => {
+    let pathSegments = path.split(".");
+    let objPtr = obj;
+    for (let pathSegment of pathSegments) {
+        if (!objPtr[pathSegment]) {
+            return null;
+        }
+        objPtr = objPtr[pathSegment];
+    }
+
+    return objPtr;
+}
+
+const colorize = (color, output) => {
+    return ['\033[', color, 'm', output, '\033[0m'].join('');
+}
+
 console.json = (value) => {
     console.log(JSON.stringify(value, null, 5));
 }
@@ -14,6 +44,14 @@ console.box = (value) => {
     }
     process.stdout.write("┘");
     console.log();
+}
+
+console.hexTable = (obj) => {
+    console.table(objectDig(obj, (value) => "0x" + value.toString(16)));
+}
+
+console.binTable = (obj) => {
+    console.table(objectDig(obj, (value) => "0b" + value.toString(2)));
 }
 
 const snakeCaseToCamelCase = (value) => {
@@ -42,3 +80,6 @@ const snakeCaseToCamelCase = (value) => {
 }
 
 exports.snakeCaseToCamelCase = snakeCaseToCamelCase;
+exports.getValueFromMap = getValueFromMap;
+exports.objectDig = objectDig;
+exports.colorize = colorize;

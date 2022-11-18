@@ -1,7 +1,109 @@
-const OVERWORLD_SPRITE_MAPPING = {
-    mapping: {
-        length:         0b11110000,
-        type:           0b00001111
+const toFileAddr = (ramAddress, bank) => {
+    return (ramAddress - 0x8000) + bank * 0x4000 + 0x10;
+}
+
+const MAP_POINTER_MAPPING = {
+    header: {
+        size: 0x04,
+        fields: [
+            {
+                name: 'sizeOfLevel',
+                relOffset: 0x00,
+                mask: 0b11111111
+            },
+            //------------------------------------
+            {
+                name: 'objectSet',
+                relOffset: 0x01,
+                mask: 0b10000000
+            },
+            {
+                name: 'widthOfLevelInScreens',
+                relOffset: 0x01,
+                mask: 0b01100000
+            },
+            {
+                name: 'reserved1',
+                relOffset: 0x01,
+                mask: 0b00010000
+            },
+            {
+                name: 'grass',
+                relOffset: 0x01,
+                mask: 0b00001000
+            },
+            {
+                name: 'bushes',
+                relOffset: 0x01,
+                mask: 0b00000100
+            },
+            {
+                name: 'reserved2',
+                relOffset: 0x01,
+                mask: 0b00000011
+            },
+            //------------------------------------
+            {
+                name: 'noCeiling',
+                relOffset: 0x02,
+                mask: 0b10000000
+            },
+            {
+                name: 'groundTiles',
+                relOffset: 0x02,
+                mask: 0b01110000
+            },
+            {
+                name: 'initialFloorPosition',
+                relOffset: 0x02,
+                mask: 0b00001111
+            },
+            //------------------------------------
+            {
+                name: 'spritePalette',
+                relOffset: 0x03,
+                mask: 0b11000000
+            },
+            {
+                name: 'backgroundPalette',
+                relOffset: 0x03,
+                mask: 0b00111000
+            },
+            {
+                name: 'backMap',
+                relOffset: 0x03,
+                mask: 0b00000111
+            },
+        ]
+    },
+    levelElements: {
+        sizeRef: 'header.sizeOfLevel',
+        sizeRefAdjustment: -4,
+        elements: {
+            size: 0x3,
+            fields: [
+                {
+                    name: 'yPosition',
+                    relOffset: 0x00,
+                    mask: 0b11110000
+                },
+                {
+                    name: 'advanceCursor',
+                    relOffset: 0x00,
+                    mask: 0b00001111
+                },
+                {
+                    name: 'objectNumber',
+                    relOffset: 0x01,
+                    mask: 0b11111111
+                },
+                {
+                    name: 'collectableObjectNumber',
+                    relOffset: 0x02,
+                    mask: 0b11111111
+                }
+            ]
+        }
     }
 }
 
@@ -37,7 +139,7 @@ const LOCATION_MAPPING_FIELDS = [
         mask: 0b00111111
     },
     {
-        name: 'hPostEnt',
+        name: 'hPosEnt',
         relOffset: 0x7E,
         mask: 0b11000000
     },
@@ -82,28 +184,47 @@ const OVERWORLD_SPRITE_TYPES = [
     "Spider"
 ]
 
-const OVERWORLD_SPRITE_SYMBOLS = [
-    "\033[41m┼\033[0m",
-    "\033[41m█\033[0m",
-    "\033[41m╬\033[0m",
-    "\033[43m=\033[0m",
-    "\033[43m.\033[0m",
-    "\033[42m,\033[0m",
-    "\033[42mF\033[0m",
-    "\033[40ms\033[0m",
-    "\033[40m+\033[0m",
-    "\033[43m \033[0m",
-    "\033[45m;\033[0m",
-    "\033[48m^\033[0m",
-    "\033[44m \033[0m",
-    "\033[46m \033[0m",
-    "\033[48mO\033[0m",
-    "\033[43m≡\033[0m"
+const MAP_POINTER_OFFSET1 = 0x8523;
+const MAP_POINTER_OFFSET2 = 0xA000;
+
+const MAP_POINTER_BANK_OFFSETS1 = [
+    toFileAddr(MAP_POINTER_OFFSET1, 1),
+    toFileAddr(MAP_POINTER_OFFSET1, 2),
+    toFileAddr(MAP_POINTER_OFFSET1, 3),
+    toFileAddr(MAP_POINTER_OFFSET1, 4),
+    toFileAddr(MAP_POINTER_OFFSET1, 5),
+];
+
+const MAP_POINTER_BANK_OFFSETS2 = [
+    toFileAddr(MAP_POINTER_OFFSET2, 1),
+    toFileAddr(MAP_POINTER_OFFSET1, 2),
+    toFileAddr(MAP_POINTER_OFFSET2, 3),
+    toFileAddr(MAP_POINTER_OFFSET2, 4),
+    toFileAddr(MAP_POINTER_OFFSET2, 5),
 ]
 
 const WEST_HYRULE_MAP_RANDO_OFFSET      = 0x7480;
 const WEST_HYRULE_MAP_VANILLA_OFFSET    = 0x506C;
 const WEST_HYRULE_MAP_LENGTH            = 0x538C - 0x506C;
+
+const WEST_HYRULE_OVERWORLD_SPRITE_MAPPING = {
+    size: WEST_HYRULE_MAP_LENGTH,
+    elements: {
+        size: 0x01,
+        fields: [
+            {
+                name: 'length',
+                relOffset: 0x0,
+                mask: 0b11110000
+            },
+            {
+                name: 'type',
+                relOffset: 0x0,
+                mask: 0b00001111
+            }
+        ]
+    }
+}
 
 const WEST_HYRULE_LOCATION_MAPPINGS = {
     NORTH_CASTLE: {
@@ -296,6 +417,25 @@ const EAST_HYRULE_MAP_RANDO_OFFSET      = 0xB480;
 const EAST_HYRULE_MAP_VANILLA_OFFSET    = 0x9056;
 const EAST_HYRULE_MAP_LENGTH            = 0x936F - 0x9056;
 
+const EAST_HYRULE_OVERWORLD_SPRITE_MAPPING = {
+    size: EAST_HYRULE_MAP_LENGTH,
+    elements: {
+        size: 0x01,
+        fields: [
+            {
+                name: 'length',
+                relOffset: 0x0,
+                mask: 0b11110000
+            },
+            {
+                name: 'type',
+                relOffset: 0x0,
+                mask: 0b00001111
+            }
+        ]
+    }
+}
+
 const EAST_HYRULE_LOCATION_MAPPINGS = {
     FIRE_TOWN_FOREST_500P_BAG:  {
         offset: 0x862F,
@@ -467,19 +607,23 @@ const EAST_HYRULE_LOCATION_MAPPINGS = {
     }
 }
 
-exports.OVERWORLD_SPRITE_MAPPING        = OVERWORLD_SPRITE_MAPPING;
-exports.OVERWORLD_SPRITE_SYMBOLS        = OVERWORLD_SPRITE_SYMBOLS;
-exports.OVERWORLD_SPRITE_TYPES          = OVERWORLD_SPRITE_TYPES;
+exports.WEST_HYRULE_OVERWORLD_SPRITE_MAPPING    = WEST_HYRULE_OVERWORLD_SPRITE_MAPPING;
+exports.EAST_HYRULE_OVERWORLD_SPRITE_MAPPING    = EAST_HYRULE_OVERWORLD_SPRITE_MAPPING;
+exports.OVERWORLD_SPRITE_TYPES                  = OVERWORLD_SPRITE_TYPES;
 
-exports.WEST_HYRULE_LOCATION_MAPPINGS   = WEST_HYRULE_LOCATION_MAPPINGS;
-exports.WEST_HYRULE_MAP_RANDO_OFFSET    = WEST_HYRULE_MAP_RANDO_OFFSET;
-exports.WEST_HYRULE_MAP_VANILLA_OFFSET  = WEST_HYRULE_MAP_VANILLA_OFFSET;
-exports.WEST_HYRULE_MAP_LENGTH          = WEST_HYRULE_MAP_LENGTH;
+exports.MAP_POINTER_BANK_OFFSETS1                = MAP_POINTER_BANK_OFFSETS1;
+exports.MAP_POINTER_BANK_OFFSETS2                = MAP_POINTER_BANK_OFFSETS2;
+exports.MAP_POINTER_HEADER_MAPPING              = MAP_POINTER_MAPPING;
 
-exports.EAST_HYRULE_LOCATION_MAPPINGS   = EAST_HYRULE_LOCATION_MAPPINGS;
-exports.EAST_HYRULE_MAP_RANDO_OFFSET    = EAST_HYRULE_MAP_RANDO_OFFSET;
-exports.EAST_HYRULE_MAP_VANILLA_OFFSET  = EAST_HYRULE_MAP_VANILLA_OFFSET;
-exports.EAST_HYRULE_MAP_LENGTH          = EAST_HYRULE_MAP_LENGTH;
+exports.WEST_HYRULE_LOCATION_MAPPINGS           = WEST_HYRULE_LOCATION_MAPPINGS;
+exports.WEST_HYRULE_MAP_RANDO_OFFSET            = WEST_HYRULE_MAP_RANDO_OFFSET;
+exports.WEST_HYRULE_MAP_VANILLA_OFFSET          = WEST_HYRULE_MAP_VANILLA_OFFSET;
+exports.WEST_HYRULE_MAP_LENGTH                  = WEST_HYRULE_MAP_LENGTH;
+
+exports.EAST_HYRULE_LOCATION_MAPPINGS           = EAST_HYRULE_LOCATION_MAPPINGS;
+exports.EAST_HYRULE_MAP_RANDO_OFFSET            = EAST_HYRULE_MAP_RANDO_OFFSET;
+exports.EAST_HYRULE_MAP_VANILLA_OFFSET          = EAST_HYRULE_MAP_VANILLA_OFFSET;
+exports.EAST_HYRULE_MAP_LENGTH                  = EAST_HYRULE_MAP_LENGTH;
 
 // 665C - 6942 - Death Mountain
 // 9056 - 936F - East Hyrule

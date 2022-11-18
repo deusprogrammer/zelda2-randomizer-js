@@ -1,3 +1,5 @@
+const { getValueFromMap } = require("../Utils");
+
 const LAST_BIT_MASK = 1 >>> 0;
 
 const littleEndianConvert = (buffer) => {
@@ -36,42 +38,41 @@ const byteMaskExtractor = (fieldMap, bytes) => {
     return fields;
 }
 
-const hexArrayExtractor = (objDesc, buffer, start = 0, end = null) => {
-    let extracted = [];
+const extractFields = (fields, buffer, offset) => {
+    let element = {};
+    for (let {name, size, relOffset, mask} of fields) {
+        let fieldSize = size || 1;
+        let fieldOffset = offset + relOffset;
 
-    if (!end) {
-        end = start + buffer.length;
+        let fieldBytes = buffer.slice(fieldOffset, fieldOffset + fieldSize);
+        fieldBytes = littleEndianConvert(fieldBytes);
+        element[name] = maskBits(fieldBytes, mask);
     }
+    return element;
+}
 
-    if (!objDesc.size) {
-        objDesc.size = 1;
+const extractElements = (objDesc, buffer, start) => {
+    let {size, elements: {size: elementSize, fields}} = objDesc;
+    let elements = [];
+    for (let offset = start, i = 0; offset < start + size; offset += elementSize, i++) {
+        elements[i] = extractFields(fields, buffer, offset);
     }
-
-    for (let offset = start, i = 0; offset < end; offset += objDesc.size, i++) {
-        let bytes = buffer.slice(offset, offset + objDesc.size);
-        let data = littleEndianConvert(bytes);
-
-        if (objDesc.mapping) {
-            data = byteMaskExtractor(objDesc.mapping, data);
-            if (objDesc.expand) {
-                extracted[i] = data;
-                continue;
-            }
-        }
-
-        extracted[i] = data;
-    }
-
-    return extracted;
+    return elements;
 }
 
 const hexExtractor = (map, buffer, start = 0) => {
     let offset = start;
     let extracted = {};
     for (let key in map) {
-        let {expand, mapping, fields, size, offset: offsetOverride} = map[key];
+        let {fields, elements, size, sizeRef, sizeRefAdjustment, offset: offsetOverride} = map[key];
 
-        if (!size) {
+        if (!sizeRefAdjustment) {
+            sizeRefAdjustment = 0;
+        }
+
+        if (sizeRef) {
+            size = getValueFromMap(extracted, sizeRef) + sizeRefAdjustment;
+        } else if (!size) {
             size = 1;
         }
 
@@ -82,35 +83,35 @@ const hexExtractor = (map, buffer, start = 0) => {
         let bytes = buffer.slice(offset, offset + size);
         data = littleEndianConvert(bytes);
 
-        if (mapping) {
-            data = byteMaskExtractor(mapping, data);
-            offset += size;
-            if (expand) {
-                extracted = {...extracted, ...data};
-                continue;
-            }
-        } else if (fields) {
-            data = {};
-            for (let {name, size, relOffset, mask} of fields) {
-                let fieldSize = size || 1;
-                let fieldOffset = offset + relOffset;
-
-                let fieldBytes = buffer.slice(fieldOffset, fieldOffset + fieldSize);
-                fieldBytes = littleEndianConvert(fieldBytes);
-                data[name] = maskBits(fieldBytes, mask);
-            }
+        if (fields) {
+            data = extractFields(fields, buffer, offset);
+        } else if (elements) {
+            data = [];
+            data.push(extractElements({size, elements}, buffer, offset));
         }
 
         offset += size;
         extracted[key] = data;
     }
 
-    return extracted;
+    return [extracted, offset];
+}
+
+const hexArrayExtractor = (map, buffer, nElements, start = 0) => {
+    let elements = [];
+    for (let i = 0; i < nElements; i++) {
+        let [extracted, newOffset] = hexExtractor(map, buffer, start);
+        start = newOffset;
+        elements.push(extracted);
+    }
+    return elements;
 }
 
 exports.maskBits = maskBits;
 exports.hexExtractor = hexExtractor;
 exports.hexArrayExtractor = hexArrayExtractor;
+exports.extractFields = extractFields;
+exports.extractElements = extractElements;
 exports.byteMaskExtractor = byteMaskExtractor;
 exports.bigEndianConvert = bigEndianConvert;
 exports.littleEndianConvert = littleEndianConvert;

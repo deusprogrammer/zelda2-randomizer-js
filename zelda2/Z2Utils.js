@@ -1,12 +1,35 @@
-const { OVERWORLD_SPRITE_SYMBOLS } = require("./Z2MemoryMappings");
+const { hexExtractor, extractElements } = require("../memory/HexTools");
+const { colorize } = require("../Utils");
+const { 
+    WEST_HYRULE_LOCATION_MAPPINGS, 
+    WEST_HYRULE_MAP_VANILLA_OFFSET, 
+    WEST_HYRULE_MAP_RANDO_OFFSET, 
+    EAST_HYRULE_MAP_VANILLA_OFFSET, 
+    EAST_HYRULE_MAP_RANDO_OFFSET, 
+    EAST_HYRULE_LOCATION_MAPPINGS, 
+    WEST_HYRULE_OVERWORLD_SPRITE_MAPPING, 
+    EAST_HYRULE_OVERWORLD_SPRITE_MAPPING, 
+    WEST_HYRULE_MAP_LENGTH, 
+    EAST_HYRULE_MAP_LENGTH } = require("./Z2MemoryMappings");
 
-const colorize = (color, output) => {
-    return ['\033[', color, 'm', output, '\033[0m'].join('');
-}
-
-const convertMemoryAddress = (memoryAddress) => {
-    return (memoryAddress-0x8000) + 1*0x4000 + 0x10;
-}
+const OVERWORLD_SPRITE_SYMBOLS = [
+    "\033[41m┼\033[0m",
+    "\033[41m█\033[0m",
+    "\033[41m╬\033[0m",
+    "\033[43m=\033[0m",
+    "\033[43m.\033[0m",
+    "\033[42m,\033[0m",
+    "\033[42mF\033[0m",
+    "\033[40ms\033[0m",
+    "\033[40m+\033[0m",
+    "\033[43m \033[0m",
+    "\033[45m;\033[0m",
+    "\033[48m^\033[0m",
+    "\033[44m \033[0m",
+    "\033[46m \033[0m",
+    "\033[48mO\033[0m",
+    "\033[43m≡\033[0m"
+]
 
 const printDebugMap = (mapObject) => {
     let legend = {};
@@ -62,5 +85,27 @@ const printSpriteMap = (mapObject, locations) => {
     console.log();
 }
 
+const extractWestHyruleSpriteMap = (buffer, mode) => {
+    let offset = WEST_HYRULE_MAP_VANILLA_OFFSET;
+    if (mode === "RANDO") {
+        offset = WEST_HYRULE_MAP_RANDO_OFFSET;
+    }
+    return extractElements(WEST_HYRULE_OVERWORLD_SPRITE_MAPPING, buffer, offset);
+}
+
+const extractEastHyruleSpriteMap = (buffer, mode) => {
+    let offset = EAST_HYRULE_MAP_VANILLA_OFFSET;
+    if (mode === "RANDO") {
+        offset = EAST_HYRULE_MAP_RANDO_OFFSET;
+    }
+    return extractElements(EAST_HYRULE_OVERWORLD_SPRITE_MAPPING, buffer, offset);
+}
+
+const extractSideViewMapData = (bank, buffer) => {
+
+}
+
 exports.printDebugMap = printDebugMap;
 exports.printSpriteMap = printSpriteMap;
+exports.extractWestHyruleSpriteMap = extractWestHyruleSpriteMap;
+exports.extractEastHyruleSpriteMap = extractEastHyruleSpriteMap;
