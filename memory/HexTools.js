@@ -80,14 +80,10 @@ const hexExtractor = (map, buffer, start = 0) => {
             offset = start + offsetOverride;
         }
 
-        let bytes = buffer.slice(offset, offset + size);
-        data = littleEndianConvert(bytes);
-
         if (fields) {
             data = extractFields(fields, buffer, offset);
         } else if (elements) {
-            data = [];
-            data.push(extractElements({size, elements}, buffer, offset));
+            data = extractElements({size, elements}, buffer, offset);
         }
 
         offset += size;

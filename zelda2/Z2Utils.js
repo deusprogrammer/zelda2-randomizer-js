@@ -1,4 +1,4 @@
-const { hexExtractor, extractElements } = require("../memory/HexTools");
+const { hexExtractor, extractElements, hexArrayExtractor, littleEndianConvert, extractFields } = require("../memory/HexTools");
 const { colorize } = require("../Utils");
 const { 
     WEST_HYRULE_LOCATION_MAPPINGS, 
@@ -8,9 +8,13 @@ const {
     EAST_HYRULE_MAP_RANDO_OFFSET, 
     EAST_HYRULE_LOCATION_MAPPINGS, 
     WEST_HYRULE_OVERWORLD_SPRITE_MAPPING, 
-    EAST_HYRULE_OVERWORLD_SPRITE_MAPPING, 
-    WEST_HYRULE_MAP_LENGTH, 
-    EAST_HYRULE_MAP_LENGTH } = require("./Z2MemoryMappings");
+    EAST_HYRULE_OVERWORLD_SPRITE_MAPPING,
+    LEVEL_HEADER_MAPPING,
+    MAP_POINTER_BANK_OFFSETS1,
+    MAP_POINTER_BANK_OFFSETS2,
+    toFileAddr,
+    LEVEL_OBJECT,
+    LEVEL_OBJECT_3B} = require("./Z2MemoryMappings");
 
 const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[41m┼\033[0m",
@@ -30,6 +34,11 @@ const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[48mO\033[0m",
     "\033[43m≡\033[0m"
 ]
+
+const readUint16 = (buffer, offset) => {
+    let bytes = buffer.slice(offset, offset + 2);
+    return littleEndianConvert(bytes);
+}
 
 const printDebugMap = (mapObject) => {
     let legend = {};
@@ -85,6 +94,14 @@ const printSpriteMap = (mapObject, locations) => {
     console.log();
 }
 
+const extractWestHyruleMapLocations = (buffer) => {
+    return hexExtractor(WEST_HYRULE_LOCATION_MAPPINGS, buffer)[0];
+}
+
+const extractEastHyruleMapLocations = (buffer) => {
+    return hexExtractor(EAST_HYRULE_LOCATION_MAPPINGS, buffer)[0];
+}
+
 const extractWestHyruleSpriteMap = (buffer, mode) => {
     let offset = WEST_HYRULE_MAP_VANILLA_OFFSET;
     if (mode === "RANDO") {
@@ -101,11 +118,83 @@ const extractEastHyruleSpriteMap = (buffer, mode) => {
     return extractElements(EAST_HYRULE_OVERWORLD_SPRITE_MAPPING, buffer, offset);
 }
 
-const extractSideViewMapData = (bank, buffer) => {
+const extractSideViewMapData = (buffer) => {
+    let banks = [];
+    for (let bank = 0; bank < 5; bank++) {
+        let offset = MAP_POINTER_BANK_OFFSETS1[bank];
+        let newBank1 = [];
+        for (let i = 0; i < 63; i++, offset += 0x2) {
+            let mapPointer = readUint16(buffer, offset);
+            mapPointer = toFileAddr(mapPointer, bank + 1);
 
+            let header = extractFields(LEVEL_HEADER_MAPPING, buffer, mapPointer);
+            let levelElements = [];
+            let read = 0x4;
+            while (read < header.sizeOfLevel) {
+                let levelObject = extractFields(LEVEL_OBJECT, buffer, mapPointer + read);
+                if (levelObject.objectNumber === 0xF && levelObject.yPosition < 13) {
+                    levelObject = extractFields(LEVEL_OBJECT_3B, buffer, mapPointer + read);
+                    read += 3;
+                } else {
+                    read += 2;
+                }
+                levelElements.push(levelObject);
+            }
+            newBank1.push({header, levelElements, offset: mapPointer});
+        }
+        
+        offset = MAP_POINTER_BANK_OFFSETS2[bank];
+        let newBank2 = [];
+        for (let i = 0; i < 63; i++, offset += 0x2) {
+            let mapPointer = readUint16(buffer, offset);
+            mapPointer = toFileAddr(mapPointer, bank + 1);
+            
+            let header = extractFields(LEVEL_HEADER_MAPPING, buffer, mapPointer);
+            let levelElements = [];
+            let read = 0x4;
+            while (read < header.sizeOfLevel) {
+                let levelObject = extractFields(LEVEL_OBJECT, buffer, mapPointer + read);
+                if (levelObject.objectNumber === 0xF && levelObject.yPosition < 0xd) {
+                    levelObject = extractFields(LEVEL_OBJECT_3B, buffer, mapPointer + read);
+                    read += 3;
+                } else {
+                    read += 2;
+                }
+                levelElements.push(levelObject);
+            }
+            newBank2.push({header, levelElements, offset: mapPointer});
+        }
+
+        banks.push([newBank1, newBank2]);
+    }
+
+    return banks;
+}
+
+const debugMap = (banks, bank, mapSet, mapNumber) => {
+    let level = banks[bank][mapSet][mapNumber];
+    console.box("BANK " + (bank + 1) + `[0x${MAP_POINTER_BANK_OFFSETS1[bank].toString(16)}]`);
+    console.box("MAP " + mapNumber + "-" + mapSet);
+    console.box("HEADER");
+    console.table(level.header);
+    console.box("DATA");
+    console.log("OFFSET: 0x" + level.offset.toString(16));
+    console.hexTable(level.levelElements);
+}
+
+const debugMapBank = (banks, bank, mapSet) => {
+    let levels = banks[bank][mapSet];
+    levels.forEach((mapNumber) => {
+        debugMap(banks, bank, mapSet, mapNumber);
+    });
 }
 
 exports.printDebugMap = printDebugMap;
 exports.printSpriteMap = printSpriteMap;
+exports.extractWestHyruleMapLocations = extractWestHyruleMapLocations;
+exports.extractEastHyruleMapLocations = extractEastHyruleMapLocations;
 exports.extractWestHyruleSpriteMap = extractWestHyruleSpriteMap;
 exports.extractEastHyruleSpriteMap = extractEastHyruleSpriteMap;
+exports.extractSideViewMapData = extractSideViewMapData;
+exports.debugMap = debugMap;
+exports.debugMapBank = debugMapBank;

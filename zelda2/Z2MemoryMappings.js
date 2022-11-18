@@ -1,111 +1,119 @@
 const toFileAddr = (ramAddress, bank) => {
-    return (ramAddress - 0x8000) + bank * 0x4000 + 0x10;
+    return (ramAddress - 0x8000) + (bank * 0x4000) + 0x10;
 }
 
-const MAP_POINTER_MAPPING = {
-    header: {
-        size: 0x04,
-        fields: [
-            {
-                name: 'sizeOfLevel',
-                relOffset: 0x00,
-                mask: 0b11111111
-            },
-            //------------------------------------
-            {
-                name: 'objectSet',
-                relOffset: 0x01,
-                mask: 0b10000000
-            },
-            {
-                name: 'widthOfLevelInScreens',
-                relOffset: 0x01,
-                mask: 0b01100000
-            },
-            {
-                name: 'reserved1',
-                relOffset: 0x01,
-                mask: 0b00010000
-            },
-            {
-                name: 'grass',
-                relOffset: 0x01,
-                mask: 0b00001000
-            },
-            {
-                name: 'bushes',
-                relOffset: 0x01,
-                mask: 0b00000100
-            },
-            {
-                name: 'reserved2',
-                relOffset: 0x01,
-                mask: 0b00000011
-            },
-            //------------------------------------
-            {
-                name: 'noCeiling',
-                relOffset: 0x02,
-                mask: 0b10000000
-            },
-            {
-                name: 'groundTiles',
-                relOffset: 0x02,
-                mask: 0b01110000
-            },
-            {
-                name: 'initialFloorPosition',
-                relOffset: 0x02,
-                mask: 0b00001111
-            },
-            //------------------------------------
-            {
-                name: 'spritePalette',
-                relOffset: 0x03,
-                mask: 0b11000000
-            },
-            {
-                name: 'backgroundPalette',
-                relOffset: 0x03,
-                mask: 0b00111000
-            },
-            {
-                name: 'backMap',
-                relOffset: 0x03,
-                mask: 0b00000111
-            },
-        ]
+const LEVEL_HEADER_MAPPING = [
+    {
+        name: 'sizeOfLevel',
+        relOffset: 0x00,
+        mask: 0b11111111
     },
-    levelElements: {
-        sizeRef: 'header.sizeOfLevel',
-        sizeRefAdjustment: -4,
-        elements: {
-            size: 0x3,
-            fields: [
-                {
-                    name: 'yPosition',
-                    relOffset: 0x00,
-                    mask: 0b11110000
-                },
-                {
-                    name: 'advanceCursor',
-                    relOffset: 0x00,
-                    mask: 0b00001111
-                },
-                {
-                    name: 'objectNumber',
-                    relOffset: 0x01,
-                    mask: 0b11111111
-                },
-                {
-                    name: 'collectableObjectNumber',
-                    relOffset: 0x02,
-                    mask: 0b11111111
-                }
-            ]
-        }
+    //------------------------------------
+    {
+        name: 'objectSet',
+        relOffset: 0x01,
+        mask: 0b10000000
+    },
+    {
+        name: 'widthOfLevelInScreens',
+        relOffset: 0x01,
+        mask: 0b01100000
+    },
+    {
+        name: 'reserved1',
+        relOffset: 0x01,
+        mask: 0b00010000
+    },
+    {
+        name: 'grass',
+        relOffset: 0x01,
+        mask: 0b00001000
+    },
+    {
+        name: 'bushes',
+        relOffset: 0x01,
+        mask: 0b00000100
+    },
+    {
+        name: 'reserved2',
+        relOffset: 0x01,
+        mask: 0b00000011
+    },
+    //------------------------------------
+    {
+        name: 'noCeiling',
+        relOffset: 0x02,
+        mask: 0b10000000
+    },
+    {
+        name: 'groundTiles',
+        relOffset: 0x02,
+        mask: 0b01110000
+    },
+    {
+        name: 'initialFloorPosition',
+        relOffset: 0x02,
+        mask: 0b00001111
+    },
+    //------------------------------------
+    {
+        name: 'spritePalette',
+        relOffset: 0x03,
+        mask: 0b11000000
+    },
+    {
+        name: 'backgroundPalette',
+        relOffset: 0x03,
+        mask: 0b00111000
+    },
+    {
+        name: 'backMap',
+        relOffset: 0x03,
+        mask: 0b00000111
+    },
+]
+
+const LEVEL_OBJECT_3B = [
+    {
+        name: 'yPosition',
+        relOffset: 0x00,
+        mask: 0b11110000
+    },
+    {
+        name: 'advanceCursor',
+        relOffset: 0x00,
+        mask: 0b00001111
+    },
+    {
+        name: 'objectNumber',
+        relOffset: 0x01,
+        mask: 0b11111111
+    },
+    {
+        name: 'collectableObjectNumber',
+        relOffset: 0x02,
+        mask: 0b11111111
     }
-}
+]
+
+
+const LEVEL_OBJECT = [
+    {
+        name: 'yPosition',
+        relOffset: 0x00,
+        mask: 0b11110000
+    },
+    {
+        name: 'advanceCursor',
+        relOffset: 0x00,
+        mask: 0b00001111
+    },
+    {
+        name: 'objectNumber',
+        relOffset: 0x01,
+        mask: 0b11111111
+    }
+]
 
 const LOCATION_MAPPING_FIELDS = [
     {
@@ -607,13 +615,16 @@ const EAST_HYRULE_LOCATION_MAPPINGS = {
     }
 }
 
+exports.LEVEL_OBJECT                            = LEVEL_OBJECT;
+exports.LEVEL_OBJECT_3B                         = LEVEL_OBJECT_3B;
+
 exports.WEST_HYRULE_OVERWORLD_SPRITE_MAPPING    = WEST_HYRULE_OVERWORLD_SPRITE_MAPPING;
 exports.EAST_HYRULE_OVERWORLD_SPRITE_MAPPING    = EAST_HYRULE_OVERWORLD_SPRITE_MAPPING;
 exports.OVERWORLD_SPRITE_TYPES                  = OVERWORLD_SPRITE_TYPES;
 
-exports.MAP_POINTER_BANK_OFFSETS1                = MAP_POINTER_BANK_OFFSETS1;
-exports.MAP_POINTER_BANK_OFFSETS2                = MAP_POINTER_BANK_OFFSETS2;
-exports.MAP_POINTER_HEADER_MAPPING              = MAP_POINTER_MAPPING;
+exports.MAP_POINTER_BANK_OFFSETS1               = MAP_POINTER_BANK_OFFSETS1;
+exports.MAP_POINTER_BANK_OFFSETS2               = MAP_POINTER_BANK_OFFSETS2;
+exports.LEVEL_HEADER_MAPPING                    = LEVEL_HEADER_MAPPING;
 
 exports.WEST_HYRULE_LOCATION_MAPPINGS           = WEST_HYRULE_LOCATION_MAPPINGS;
 exports.WEST_HYRULE_MAP_RANDO_OFFSET            = WEST_HYRULE_MAP_RANDO_OFFSET;
@@ -624,6 +635,8 @@ exports.EAST_HYRULE_LOCATION_MAPPINGS           = EAST_HYRULE_LOCATION_MAPPINGS;
 exports.EAST_HYRULE_MAP_RANDO_OFFSET            = EAST_HYRULE_MAP_RANDO_OFFSET;
 exports.EAST_HYRULE_MAP_VANILLA_OFFSET          = EAST_HYRULE_MAP_VANILLA_OFFSET;
 exports.EAST_HYRULE_MAP_LENGTH                  = EAST_HYRULE_MAP_LENGTH;
+
+exports.toFileAddr = toFileAddr;
 
 // 665C - 6942 - Death Mountain
 // 9056 - 936F - East Hyrule
