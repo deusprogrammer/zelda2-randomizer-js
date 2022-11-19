@@ -1,52 +1,98 @@
-const NES_HEADER_MAP = {
-    NES_HEADER: {
-        size: 4
+const NES_HEADER_MAP = [
+    {
+        name: "nesHeader",
+        relOffset: 0x0,
+        size: 0x4,
+        mask: 0xFFFFFF
     },
-    PRG_ROM_SIZE: {    },
-    CHR_ROM_SIZE: {    },
-    FLAGS6: {
-        expand: true,
-        mapping: {
-            MIRRORING:          0b00000001,
-            BATTERY:            0b00000010,
-            TRAINER:            0b00000100,
-            IGNORE_MIRRORING:   0b00001000,
-            LOWER_MAPPER_NR:    0b11110000
-        }
+    {
+        name: "prgRomSize",
+        relOffset: 0x4
     },
-    FLAGS7: {
-        expand: true,
-        mapping: {
-            VS_UNI_SYS:         0b00000001,
-            PLAY_CHOICE:        0b00000010,
-            NES_2_0:            0b00001100,
-            UPPER_MAPPER_NR:    0b11110000
-        }
+    {
+        name: "chrRomSize",
+        relOffset: 0x5
     },
-    FLAGS8: {
-        expand: true,
-        mapping: {
-            PRG_RAM_SIZE:       0b11111110
-        }
+    {
+        name: "mirroring",
+        relOffset: 0x6,
+        mask: 0b00000001
     },
-    FLAGS9: {
-        expand: true,
-        mapping: {
-            TV_SYSTEM:          0b00000001,
-            RESERVED:           0b11111110
-        }
+    {
+        name: "battery",
+        relOffset: 0x6,
+        mask: 0b00000010
     },
-    FLAGS10: {
-        expand: true,
-        mapping: {
-            TV_SYSTEM:          0b00000011,
-            PRG_RAM:            0b00010000,
-            BUS_CONF:           0b00100000
-        }
+    {
+        name: "trainer",
+        relOffset: 0x6,
+        mask: 0b00000100
     },
-    PADDING: {
+    {
+        name: "ignoreMirroring",
+        relOffset: 0x6,
+        mask: 0b00001000
+    },
+    {
+        name: "lowerMapperNumber",
+        relOffset: 0x6,
+        mask: 0b11110000
+    },
+    {
+        name: "vsUniSystem",
+        relOffset: 0x7,
+        mask: 0b00000001
+    },
+    {
+        name: "playChoice",
+        relOffset: 0x7,
+        mask: 0b00000010
+    },
+    {
+        name: "nes2_0",
+        relOffset: 0x7,
+        mask: 0b00000100
+    },
+    {
+        name: "upperMapperNumber",
+        relOffset: 0x7,
+        mask: 0b11110000
+    },
+    {
+        name: "prgRamSize",
+        relOffset: 0x8,
+        mask: 0b11111110
+    },
+    {
+        name: "tvSystem1",
+        relOffset: 0x8,
+        mask: 0b00000001
+    },
+    {
+        name: "reserved",
+        relOffset: 0x8,
+        mask: 0b11111110
+    },
+    {
+        name: "tvSystem2",
+        relOffset: 0x9,
+        mask: 0b00000011
+    },
+    {
+        name: "prgRam",
+        relOffset: 0x9,
+        mask: 0b00010000
+    },
+    {
+        name: "busConfig",
+        relOffset: 0x9,
+        mask: 0b00100000
+    },
+    {
+        name: "padding",
+        relOffset: 0xA,
         size: 4
     }
-}
+]
 
 exports.NES_HEADER_MAP = NES_HEADER_MAP;

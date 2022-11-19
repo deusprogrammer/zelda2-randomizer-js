@@ -21,8 +21,8 @@ const bigEndianConvert = (buffer) => {
 const maskBits = (bytes, mask) => {
     let maskedValue = mask & bytes;
     while ((mask & LAST_BIT_MASK) == 0) {
-        maskedValue = maskedValue >>> 1;
-        mask = mask >>> 1;
+        maskedValue = maskedValue >> 1;
+        mask = mask >> 1;
     }
 
     return maskedValue;
@@ -42,6 +42,7 @@ const extractFields = (fields, buffer, offset) => {
     let element = {};
     for (let {name, size, relOffset, mask} of fields) {
         let fieldSize = size || 1;
+        mask = mask || 0b11111111;
         let fieldOffset = offset + relOffset;
 
         let fieldBytes = buffer.slice(fieldOffset, fieldOffset + fieldSize);

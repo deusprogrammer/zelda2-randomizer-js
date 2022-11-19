@@ -1,5 +1,5 @@
 const { hexExtractor, extractElements, hexArrayExtractor, littleEndianConvert, extractFields } = require("../memory/HexTools");
-const { colorize } = require("../Utils");
+const { colorize, create2D, draw2D, hLine2D, vLine2D, plot2D } = require("../Utils");
 const { 
     WEST_HYRULE_LOCATION_MAPPINGS, 
     WEST_HYRULE_MAP_VANILLA_OFFSET, 
@@ -15,6 +15,9 @@ const {
     toFileAddr,
     LEVEL_OBJECT,
     LEVEL_OBJECT_3B} = require("./Z2MemoryMappings");
+
+const WIDTH_OF_SCREEN = 0x10;
+const HEIGHT_OF_SCREEN = 0x10;
 
 const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[41m┼\033[0m",
@@ -189,6 +192,108 @@ const debugMapBank = (banks, bank, mapSet) => {
     });
 }
 
+const getFloorPosition = (floorLevel) => {
+    if (floorLevel >= 0 && floorLevel <= 7) {
+        return [15 - (floorLevel + 2), 'F'];
+    } else if (floorLevel > 7 && floorLevel <= 14) {
+        return [floorLevel - 6, 'C'];
+    } else {
+        return [15, 'W'];
+    }
+}
+
+const sleep = (ms) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {resolve()}, ms);
+    });
+}
+
+const drawMap = async (level) => {
+    let mapWidth = (level.header.widthOfLevelInScreens + 1) * WIDTH_OF_SCREEN;
+    let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
+    let floorLevel = 13;
+    let ceilingLevel = 2;
+    let x = 0;
+    let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
+    let drawWall = false;
+    if (c === "F") {
+        floorLevel = newLevel;
+    } else if (c === "C") {
+        ceilingLevel = newLevel;
+    } else {
+        drawWall = true;
+    }
+
+    for (let {yPosition: y, advanceCursor: xSpace, objectNumber, collectableObjectNumber} of level.levelElements) {
+        let newX = 0;
+        let newFloorLevel = floorLevel;
+        let newCeilingLevel = ceilingLevel;
+
+        console.log("MOVING Y CURSOR TO: " + y);
+        console.log("ADVANCING X CURSOR: " + xSpace + " PUTTING IT AT " + (x + xSpace) + "\n");
+
+        newX = x + xSpace;
+        if (y === 0xD) {
+            let [newLevel, c] = getFloorPosition(objectNumber & 0b00001111);
+            if (c === "F") {
+                newFloorLevel = newLevel;
+            } else if (c === "C") {
+                newCeilingLevel = newLevel;
+            } else if (c === "W") {
+                drawWall = true;
+            }
+        } else if (y === 0XE) {
+            newX = xSpace;
+        } else if (y === 0xF) {
+            console.log(`EXTRA OBJECT[${xSpace}]`);
+        } else {
+            let size = 1;
+            if (objectNumber === 0xF && y < 13) {
+                console.log(`SPECIAL OBJECT ${objectNumber} [${xSpace}]`);
+                plot2D(map, mapWidth, x, y + 2, "!");
+            } else if (objectNumber > 0xF) {
+                size = objectNumber & 0b00001111;
+                objectNumber = objectNumber >> 4;
+
+                console.log(`LARGE OBJECT ${objectNumber} <${size}>[${xSpace}]`);
+
+                if (objectNumber === 2 && level.header.objectSet === 1) {
+                    hLine2D(map, mapWidth, x, x + size, y + 2, "X");
+                    hLine2D(map, mapWidth, x, x + size, y + 3, "X");
+                }
+            } else {
+                console.log("SMALL OBJECT");
+            }
+        }
+
+        if (drawWall) {
+            for (let i = 0; i < xSpace; i++) {
+                vLine2D(map, mapWidth, 0, 15, x + i, "W");
+            }
+            drawWall = false;
+        } else {
+            hLine2D(map, mapWidth, x, newX, floorLevel, "F");
+            hLine2D(map, mapWidth, x, newX, ceilingLevel, "C");
+            vLine2D(map, mapWidth, floorLevel, newFloorLevel, newX, "F");
+            vLine2D(map, mapWidth, ceilingLevel, newCeilingLevel, newX, "C");
+        }
+
+        ceilingLevel    = newCeilingLevel;
+        floorLevel      = newFloorLevel;
+        x = newX;
+
+        plot2D(map, mapWidth, x, floorLevel, colorize(5, "*"));
+        draw2D(map, mapWidth);
+        plot2D(map, mapWidth, x, floorLevel, "F");
+        // await sleep(1000);
+    };
+    if (x < mapWidth) {
+        hLine2D(map, mapWidth, x, mapWidth, floorLevel, "F");
+        hLine2D(map, mapWidth, x, mapWidth, ceilingLevel, "C");
+    }
+    draw2D(map, mapWidth);
+}
+
 exports.printDebugMap = printDebugMap;
 exports.printSpriteMap = printSpriteMap;
 exports.extractWestHyruleMapLocations = extractWestHyruleMapLocations;
@@ -198,3 +303,4 @@ exports.extractEastHyruleSpriteMap = extractEastHyruleSpriteMap;
 exports.extractSideViewMapData = extractSideViewMapData;
 exports.debugMap = debugMap;
 exports.debugMapBank = debugMapBank;
+exports.drawMap = drawMap;

@@ -79,7 +79,56 @@ const snakeCaseToCamelCase = (value) => {
     return newName;
 }
 
+const create2D = (width, height) => {
+    return new Array(width * height);
+}
+
+const plot2D = (buffer, width, x, y, value) => {
+    buffer[y*width + x] = value;
+}
+
+const hLine2D = (buffer, width, x1, x2, y, c) => {
+    let start = Math.min(x1, x2);
+    let end = Math.max(x1, x2);
+
+    for (let x = start; x <= end; x++) {
+        plot2D(buffer, width, x, y, c);
+    }
+}
+
+const vLine2D = (buffer, width, y1, y2, x, c) => {
+    let start = Math.min(y1, y2);
+    let end = Math.max(y1, y2);
+
+    for (let y = start; y <= end; y++) {
+        plot2D(buffer, width, x, y, c);
+    }
+}
+
+const draw2D = (buffer, width) => {
+    process.stdout.write(' ');
+    for (let i = 0; i < width; i++) {
+        process.stdout.write((i % 16).toString(16));
+    }
+    for (let i = 0; i < buffer.length; i++) {
+        let element = buffer[i] || ' ';
+        if (i % width === 0) {
+            console.log();
+            process.stdout.write(((i / width) % 16).toString(16));
+        }
+        process.stdout.write(element);
+    };
+    console.log();
+    console.log();
+}
+
 exports.snakeCaseToCamelCase = snakeCaseToCamelCase;
 exports.getValueFromMap = getValueFromMap;
 exports.objectDig = objectDig;
 exports.colorize = colorize;
+
+exports.create2D = create2D;
+exports.plot2D = plot2D;
+exports.draw2D = draw2D;
+exports.hLine2D = hLine2D;
+exports.vLine2D = vLine2D;

@@ -1,7 +1,7 @@
 const calculateNESOffsets = (headers) => {
-    let trainerSize = headers.TRAINER === 1 ? 0x0200 : 0;
-    let prgRomSize = headers.PRG_ROM_SIZE * 0x4000;
-    let chrRomSize = headers.CHR_ROM_SIZE * 0x2000;
+    let trainerSize = headers.trainer === 1 ? 0x0200 : 0;
+    let prgRomSize = headers.prgRomSize * 0x4000;
+    let chrRomSize = headers.chrRomSize * 0x2000;
 
     return {
         HEADER: {
