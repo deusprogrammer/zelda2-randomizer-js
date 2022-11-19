@@ -229,9 +229,6 @@ const drawMap = async (level) => {
         let newFloorLevel = floorLevel;
         let newCeilingLevel = ceilingLevel;
 
-        console.log("MOVING Y CURSOR TO: " + y);
-        console.log("ADVANCING X CURSOR: " + xSpace + " PUTTING IT AT " + (x + xSpace) + "\n");
-
         newX = x + xSpace;
         if (y === 0xD) {
             let [newLevel, c] = getFloorPosition(objectNumber & 0b00001111);
@@ -245,24 +242,23 @@ const drawMap = async (level) => {
         } else if (y === 0XE) {
             newX = xSpace;
         } else if (y === 0xF) {
-            console.log(`EXTRA OBJECT[${xSpace}]`);
+            // EXTRA OBJECT
         } else {
             let size = 1;
             if (objectNumber === 0xF && y < 13) {
-                console.log(`SPECIAL OBJECT ${objectNumber} [${xSpace}]`);
+                // SPECIAL OBJECT
                 plot2D(map, mapWidth, x, y + 2, "!");
             } else if (objectNumber > 0xF) {
+                // LARGE OBJECT
                 size = objectNumber & 0b00001111;
                 objectNumber = objectNumber >> 4;
 
-                console.log(`LARGE OBJECT ${objectNumber} <${size}>[${xSpace}]`);
-
                 if (objectNumber === 2 && level.header.objectSet === 1) {
-                    hLine2D(map, mapWidth, x, x + size, y + 2, "X");
-                    hLine2D(map, mapWidth, x, x + size, y + 3, "X");
+                    hLine2D(map, mapWidth, newX, newX + size, y + 2, "X");
+                    hLine2D(map, mapWidth, newX, newX + size, y + 3, "X");
                 }
             } else {
-                console.log("SMALL OBJECT");
+                // SMALL OBJECT
             }
         }
 
@@ -282,10 +278,9 @@ const drawMap = async (level) => {
         floorLevel      = newFloorLevel;
         x = newX;
 
-        plot2D(map, mapWidth, x, floorLevel, colorize(5, "*"));
-        draw2D(map, mapWidth);
-        plot2D(map, mapWidth, x, floorLevel, "F");
-        // await sleep(1000);
+        // plot2D(map, mapWidth, x, floorLevel, colorize(5, "*"));
+        // draw2D(map, mapWidth);
+        // plot2D(map, mapWidth, x, floorLevel, "F");
     };
     if (x < mapWidth) {
         hLine2D(map, mapWidth, x, mapWidth, floorLevel, "F");
