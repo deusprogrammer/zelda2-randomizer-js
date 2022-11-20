@@ -346,6 +346,7 @@ const drawMap = async (level) => {
     let x = 0;
     let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let fg = create2D(mapWidth, HEIGHT_OF_SCREEN);
+    let bg = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
     let floorLevel = 2;
     let ceilingLevel = 1;
@@ -365,10 +366,10 @@ const drawMap = async (level) => {
     }
 
     if (grass) {
-        hLine2D(fg, mapWidth, 0, mapWidth, 0xA, colorize(32, "█"));
+        hLine2D(bg, mapWidth, 0, mapWidth, 0xA, colorize(32, "█"));
     }
     if (bushes) {
-        hLine2D(fg, mapWidth, 0, mapWidth, 0xB, colorize(2, colorize(32, "█")));
+        hLine2D(bg, mapWidth, 0, mapWidth, 0xB, colorize(2, colorize(32, "█")));
     }
 
     for (let element of level.levelElements) {
@@ -461,7 +462,7 @@ const drawMap = async (level) => {
         rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 13,           "█");
         rectangle2D(map, mapWidth, x, 0,                mapWidth - 1, ceilingLevel, "█");
     }
-    let layers = layer2D(map, fg);
+    let layers = layer2D(bg, map, fg);
     draw2D(layers, mapWidth);
 }
 
