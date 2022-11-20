@@ -344,8 +344,8 @@ const drawMap = async (level) => {
     let x = 0;
     let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
-    let floorLevel = 13;
-    let ceilingLevel = 2;
+    let floorLevel = 2;
+    let ceilingLevel = 1;
     let drawWall = false;
     let size = 1;
     if (c === "F") {
