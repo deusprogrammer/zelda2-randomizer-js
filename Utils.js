@@ -84,7 +84,17 @@ const create2D = (width, height) => {
 }
 
 const plot2D = (buffer, width, x, y, value) => {
+    let oldValue = buffer[y*width + x];
     buffer[y*width + x] = value;
+    return oldValue;
+}
+
+const rectangle2D = (buffer, width, x1, y1, x2, y2, c) => {
+    let yStart = Math.min(y1, y2);
+    let yEnd = Math.max(y1, y2);
+    for (let y = yStart; y < yEnd; y++) {
+        hLine2D(buffer, width, x1, x2, y, c);
+    }
 }
 
 const hLine2D = (buffer, width, x1, x2, y, c) => {
@@ -132,3 +142,4 @@ exports.plot2D = plot2D;
 exports.draw2D = draw2D;
 exports.hLine2D = hLine2D;
 exports.vLine2D = vLine2D;
+exports.rectangle2D = rectangle2D;

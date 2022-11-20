@@ -1,6 +1,7 @@
-const { hexExtractor, extractElements, hexArrayExtractor, littleEndianConvert, extractFields } = require("../memory/HexTools");
-const { colorize, create2D, draw2D, hLine2D, vLine2D, plot2D } = require("../Utils");
+const { hexExtractor, extractElements, hexArrayExtractor, littleEndianConvert, extractFields, maskBits } = require("../memory/HexTools");
+const { colorize, create2D, draw2D, hLine2D, vLine2D, plot2D, rectangle2D } = require("../Utils");
 const { 
+    toFileAddr,
     WEST_HYRULE_LOCATION_MAPPINGS, 
     WEST_HYRULE_MAP_VANILLA_OFFSET, 
     WEST_HYRULE_MAP_RANDO_OFFSET, 
@@ -12,12 +13,11 @@ const {
     LEVEL_HEADER_MAPPING,
     MAP_POINTER_BANK_OFFSETS1,
     MAP_POINTER_BANK_OFFSETS2,
-    toFileAddr,
     LEVEL_OBJECT,
     LEVEL_OBJECT_3B} = require("./Z2MemoryMappings");
 
-const WIDTH_OF_SCREEN = 0x10;
-const HEIGHT_OF_SCREEN = 0x10;
+const WIDTH_OF_SCREEN  = 16;
+const HEIGHT_OF_SCREEN = 16;
 
 const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[41m┼\033[0m",
@@ -37,6 +37,135 @@ const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[48mO\033[0m",
     "\033[43m≡\033[0m"
 ]
+
+const SMALL_OBJECTS = [
+    "headstone",
+    "cross",
+    "angled cross",
+    "tree stump",
+    "stone table",
+    "locked door",
+    "zelda",
+    "zelda",
+    "pit",
+    "cloud",
+    "cloud",
+    "cloud",
+    "cloud",
+    "cloud",
+    "cloud"
+]
+
+const OBJECT_SETS = [
+    {
+        0x2: "forest ceiling, two high",
+        0x3: "forest ceiling, two high",
+        0x4: "curtains, two high",
+        0x5: "forest ceiling, one high",
+        0x6: "handy glove blocks, one high",
+        0x7: "horizontal pit, one high",
+        0x8: "single weed, one high",
+        0x9: "two weeds, one high",
+        0xA: "north castle steps, one high",
+        0xB: "background bricks, one high",
+        0xC: "volcano background, one high",
+        0xD: "handy glove block, one wide",
+        0xE: "background tree, one wide",
+        0xF: "column, one wide"
+    }, {
+        0x2: "wide rock floor, two high",
+        0x3: "wide rock ceiling, two high",
+        0x4: "bridge, two high",
+        0x5: "cave blocks, one high",
+        0x6: "handy glove blocks, one high",
+        0x7: "collapsing bridge, one high",
+        0x8: "single weed, one high",
+        0x9: "two weeds, one high",
+        0xA: "horizontal pit, one high",
+        0xB: "background bricks, one high",
+        0xC: "volcano background, one high",
+        0xD: "handy glove block, one wide",
+        0xE: "tall rock floor, one wide",
+        0xF: "stone spire"
+    }
+]
+
+const LARGE_OBJECT_SIZES = [
+    {
+        0x2: {size: 2, type: "wide"},
+        0x3: {size: 2, type: "wide"},
+        0x4: {size: 2, type: "wide"},
+        0x5: {size: 1, type: "wide"},
+        0x6: {size: 1, type: "wide"},
+        0x7: {size: 1, type: "wide"},
+        0x8: {size: 1, type: "wide"},
+        0x9: {size: 1, type: "wide"},
+        0xA: {size: 1, type: "wide"},
+        0xB: {size: 1, type: "wide"},
+        0xC: {size: 1, type: "wide"},
+        0xD: {size: 1, type: "tall"},
+        0xE: {size: 1, type: "tall"},
+        0xF: {size: 1, type: "tall"},
+    }, {
+        0x2: {size: 2, type: "wide"},
+        0x3: {size: 2, type: "wide"},
+        0x4: {size: 2, type: "wide"},
+        0x5: {size: 1, type: "wide"},
+        0x6: {size: 1, type: "wide"},
+        0x7: {size: 1, type: "wide"},
+        0x8: {size: 1, type: "wide"},
+        0x9: {size: 1, type: "wide"},
+        0xA: {size: 1, type: "wide"},
+        0xB: {size: 1, type: "wide"},
+        0xC: {size: 1, type: "wide"},
+        0xD: {size: 1, type: "tall"},
+        0xE: {size: 1, type: "tall"},
+        0xF: {size: 1, type: "tall"},
+    }
+]
+
+const DRAWING_OP = {
+    0xD: "CHANGE FLOOR LEVEL",
+    0xE: "SKIP",
+    0xF: "EXTRA OBJECT"
+}
+
+const SUB_OP_MAP = {
+    F: "FLOOR",
+    C: "CEILING",
+    W: "WALL"
+}
+
+const debugElement = (element, type, objectSet = 0) => {
+    let v = {
+        ...element,
+        yPosition: "0x" + element.yPosition.toString(16),
+        objectNumber: "0x" + (element.objectNumber & 0b00001111).toString(16)
+    };
+
+    if (element.yPosition > 0xC) {
+        let opData = element.objectNumber & 0b00001111;
+        let subOp = null;
+        [opData, subOp] = getFloorPosition(opData);
+        subOp = SUB_OP_MAP[subOp];
+        v.noCeiling = maskBits(element.objectNumber, 0b10000000) !== 0;
+        v.op = DRAWING_OP[element.yPosition];
+        v.subOp = subOp;
+        v.opData = opData;
+    } else {
+        let objectNumber = element.objectNumber;
+        let object = null;
+        if (type === "LARGE") {
+            objectNumber = objectNumber & 0b00001111;
+            object = OBJECT_SETS[objectSet][objectNumber];
+        } else if (type === "SMALL") {
+            object = SMALL_OBJECTS[objectNumber];
+        }
+        v.object = object;
+    }
+
+    return v;
+}
 
 const readUint16 = (buffer, offset) => {
     let bytes = buffer.slice(offset, offset + 2);
@@ -194,7 +323,7 @@ const debugMapBank = (banks, bank, mapSet) => {
 
 const getFloorPosition = (floorLevel) => {
     if (floorLevel >= 0 && floorLevel <= 7) {
-        return [15 - (floorLevel + 2), 'F'];
+        return [floorLevel + 2, 'F'];
     } else if (floorLevel > 7 && floorLevel <= 14) {
         return [floorLevel - 6, 'C'];
     } else {
@@ -210,81 +339,107 @@ const sleep = (ms) => {
 
 const drawMap = async (level) => {
     let mapWidth = (level.header.widthOfLevelInScreens + 1) * WIDTH_OF_SCREEN;
+    let objectSet = level.header.objectSet;
+    let x = 0;
+    let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
     let floorLevel = 13;
     let ceilingLevel = 2;
-    let x = 0;
-    let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let drawWall = false;
+    let size = 1;
     if (c === "F") {
         floorLevel = newLevel;
+        ceilingLevel = 1;
     } else if (c === "C") {
         ceilingLevel = newLevel;
     } else {
         drawWall = true;
     }
 
-    for (let {yPosition: y, advanceCursor: xSpace, objectNumber, collectableObjectNumber} of level.levelElements) {
+    for (let element of level.levelElements) {
+        let {yPosition: y, advanceCursor: xSpace, objectNumber, collectableObjectNumber} = element;
         let newX = 0;
         let newFloorLevel = floorLevel;
         let newCeilingLevel = ceilingLevel;
+        let noCeiling = false;
 
         newX = x + xSpace;
         if (y === 0xD) {
             let [newLevel, c] = getFloorPosition(objectNumber & 0b00001111);
+            noCeiling = maskBits(objectNumber, 0b10000000);
             if (c === "F") {
                 newFloorLevel = newLevel;
+                newCeilingLevel = 1;
             } else if (c === "C") {
+                newFloorLevel = 2;
                 newCeilingLevel = newLevel;
             } else if (c === "W") {
                 drawWall = true;
             }
+            // SMALL OBJECT
+            console.table(debugElement({...element, objectNumber, size}, "", objectSet));
         } else if (y === 0XE) {
-            newX = xSpace;
+            // SMALL OBJECT
+            console.table(debugElement({...element, objectNumber, size}, "", objectSet));
+
+            newX = xSpace * 16;
         } else if (y === 0xF) {
             // EXTRA OBJECT
+            console.table(debugElement({...element, objectNumber, size}, "EXTRA", objectSet));
         } else {
-            let size = 1;
             if (objectNumber === 0xF && y < 13) {
                 // SPECIAL OBJECT
-                plot2D(map, mapWidth, x, y + 2, "!");
+                console.table(debugElement({...element, objectNumber, size}, "SPECIAL", objectSet));
+
+                plot2D(map, mapWidth, x, y, "!");
             } else if (objectNumber > 0xF) {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
                 objectNumber = objectNumber >> 4;
-
-                if (objectNumber === 2 && level.header.objectSet === 1) {
-                    hLine2D(map, mapWidth, newX, newX + size, y + 2, "X");
-                    hLine2D(map, mapWidth, newX, newX + size, y + 3, "X");
+                let {size: length, type} = LARGE_OBJECT_SIZES[objectSet][objectNumber];
+                if (type === "wide") {
+                    rectangle2D(map, mapWidth, newX, y, newX + size, y + length, "█");
+                } else if (type === "tall") {
+                    rectangle2D(map, mapWidth, newX, y, newX + length - 1, y + size, "█");
                 }
+                console.table(debugElement({...element, objectNumber, size, length, type}, "LARGE", objectSet));
             } else {
                 // SMALL OBJECT
+                console.table(debugElement({...element, objectNumber, size}, "SMALL", objectSet));
             }
         }
+
+        console.table({x, y, xSpace, newCeilingLevel, newFloorLevel: 13 - newFloorLevel});
 
         if (drawWall) {
             for (let i = 0; i < xSpace; i++) {
-                vLine2D(map, mapWidth, 0, 15, x + i, "W");
+                vLine2D(map, mapWidth, 0, 11, x + i, "█");
             }
             drawWall = false;
-        } else {
-            hLine2D(map, mapWidth, x, newX, floorLevel, "F");
-            hLine2D(map, mapWidth, x, newX, ceilingLevel, "C");
-            vLine2D(map, mapWidth, floorLevel, newFloorLevel, newX, "F");
-            vLine2D(map, mapWidth, ceilingLevel, newCeilingLevel, newX, "C");
+        } else if (!drawWall && xSpace !== 0) {
+            rectangle2D(map, mapWidth, x, 13 - floorLevel,  newX - 1, 12,           "█");
+            rectangle2D(map, mapWidth, x, 0,                newX - 1, ceilingLevel, "█");
         }
 
+        x = newX;
         ceilingLevel    = newCeilingLevel;
         floorLevel      = newFloorLevel;
-        x = newX;
+        if (noCeiling) {
+            ceilingLevel = 0;
+        }
 
-        // plot2D(map, mapWidth, x, floorLevel, colorize(5, "*"));
-        // draw2D(map, mapWidth);
-        // plot2D(map, mapWidth, x, floorLevel, "F");
+        let f = plot2D(map, mapWidth, x, 13 - floorLevel, colorize(5, "^"));
+        let c = plot2D(map, mapWidth, x, ceilingLevel, colorize(5, "v"));
+        let p = plot2D(map, mapWidth, x, y, colorize(5, "*"));
+        draw2D(map, mapWidth);
+        plot2D(map, mapWidth, x, 13 - floorLevel, f);
+        plot2D(map, mapWidth, x, ceilingLevel, c);
+        plot2D(map, mapWidth, x, y, p);
+        await sleep(1000);
     };
     if (x < mapWidth) {
-        hLine2D(map, mapWidth, x, mapWidth, floorLevel, "F");
-        hLine2D(map, mapWidth, x, mapWidth, ceilingLevel, "C");
+        rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 12,           "█");
+        rectangle2D(map, mapWidth, x, 0,                mapWidth - 1, ceilingLevel, "█");
     }
     draw2D(map, mapWidth);
 }
