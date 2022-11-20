@@ -43,14 +43,18 @@ console.box("EAST HYRULE SPRITE MAP [GRAPHICAL]");
 printSpriteMap(eastHyruleSpriteMap, eastHyruleMap);
 
 let mapBanks = extractSideViewMapData(rom);
-debugMap(mapBanks, 0, 0, 7);
-drawMap(mapBanks[0][0][7]);
+// debugMap(mapBanks, 0, 0, 7);
+// drawMap(mapBanks[0][0][7]);
 
-// for (let name in westHyruleMap) {
-//     let location = westHyruleMap[name];
+for (let name in westHyruleMap) {
+    let location = westHyruleMap[name];
 
-//     console.box(name);
-//     debugMap(mapBanks, 0, 0, location.mapNumber);
-//     drawMap(mapBanks[0][0][location.mapNumber]);
-//     console.log();
-// }
+    if (location.worldNumber !== 0) {
+        continue;
+    }
+
+    console.box(name);
+    debugMap(mapBanks, 0, 0, location.mapNumber);
+    drawMap(mapBanks[0][0][location.mapNumber]);
+    console.log();
+}

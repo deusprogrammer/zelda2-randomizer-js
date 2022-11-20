@@ -115,6 +115,18 @@ const vLine2D = (buffer, width, y1, y2, x, c) => {
     }
 }
 
+const layer2D = (...layerBuffers) => {
+    let buffer = [...layerBuffers[0]];
+    for (let i = 1; i < layerBuffers.length; i++) {
+        let layer = layerBuffers[i];
+        layer.forEach((block, j) => {
+            buffer[j] = block;
+        })
+    }
+
+    return buffer;
+}
+
 const draw2D = (buffer, width) => {
     process.stdout.write(' ');
     for (let i = 0; i < width; i++) {
@@ -140,6 +152,7 @@ exports.colorize = colorize;
 exports.create2D = create2D;
 exports.plot2D = plot2D;
 exports.draw2D = draw2D;
+exports.layer2D = layer2D;
 exports.hLine2D = hLine2D;
 exports.vLine2D = vLine2D;
 exports.rectangle2D = rectangle2D;

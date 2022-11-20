@@ -1,5 +1,5 @@
 const { hexExtractor, extractElements, hexArrayExtractor, littleEndianConvert, extractFields, maskBits } = require("../memory/HexTools");
-const { colorize, create2D, draw2D, hLine2D, vLine2D, plot2D, rectangle2D } = require("../Utils");
+const { colorize, create2D, draw2D, hLine2D, vLine2D, plot2D, rectangle2D, layer2D } = require("../Utils");
 const { 
     toFileAddr,
     WEST_HYRULE_LOCATION_MAPPINGS, 
@@ -338,11 +338,14 @@ const sleep = (ms) => {
 }
 
 const drawMap = async (level) => {
-    let mapWidth = (level.header.widthOfLevelInScreens + 1) * WIDTH_OF_SCREEN;
+    let mapWidth = 4 * WIDTH_OF_SCREEN;
     let objectSet = level.header.objectSet;
     let noCeiling = level.header.noCeiling;
+    let bushes = level.header.bushes;
+    let grass = level.header.grass;
     let x = 0;
     let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
+    let fg = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
     let floorLevel = 2;
     let ceilingLevel = 1;
@@ -359,6 +362,13 @@ const drawMap = async (level) => {
 
     if (noCeiling) {
         ceilingLevel = 0;
+    }
+
+    if (grass) {
+        hLine2D(fg, mapWidth, 0, mapWidth, 0xA, colorize(32, "█"));
+    }
+    if (bushes) {
+        hLine2D(fg, mapWidth, 0, mapWidth, 0xB, colorize(2, colorize(32, "█")));
     }
 
     for (let element of level.levelElements) {
@@ -380,21 +390,19 @@ const drawMap = async (level) => {
             } else if (c === "W") {
                 drawWall = true;
             }
-            // SMALL OBJECT
-            // console.table(debugElement({...element, objectNumber, size}, "", objectSet));
         } else if (y === 0XE) {
-            // SMALL OBJECT
-            // console.table(debugElement({...element, objectNumber, size}, "", objectSet));
-
+            // SKIP
             newX = xSpace * 16;
         } else if (y === 0xF) {
             // EXTRA OBJECT
-            // console.table(debugElement({...element, objectNumber, size}, "EXTRA", objectSet));
+            size = objectNumber & 0b00001111;
+            objectNumber = objectNumber >> 4;
+            if (objectNumber === 0x2) {
+                rectangle2D(fg, mapWidth, newX, 10, newX + size, 13, colorize(31, "█"));
+            }
         } else {
             if (objectNumber === 0xF && y < 13) {
                 // SPECIAL OBJECT
-                // console.table(debugElement({...element, objectNumber, size}, "SPECIAL", objectSet));
-
                 plot2D(map, mapWidth, x, y, "!");
             } else if (objectNumber > 0xF) {
                 // LARGE OBJECT
@@ -407,22 +415,29 @@ const drawMap = async (level) => {
                 } else if (type === "tall") {
                     rectangle2D(map, mapWidth, newX, y, newX + length - 1, y + size + 1, print);
                 }
-                // console.table(debugElement({...element, objectNumber, size, length, type}, "LARGE", objectSet));
+
+                if (objectNumber === 0xA) {
+                    rectangle2D(fg, mapWidth, newX, y, newX + size, y + length, colorize(2, colorize(31, "█")));
+                }
             } else {
                 // SMALL OBJECT
-                // console.table(debugElement({...element, objectNumber, size}, "SMALL", objectSet));
+                if (objectNumber === 0x3) {
+                    rectangle2D(map, mapWidth, newX, y, newX, y + 2, "█");
+                } else if (objectNumber === 0x6 || objectNumber === 0x7) {
+                    rectangle2D(map, mapWidth, newX, y, newX + 1, y + 2, colorize(2, "█"));
+                } else if (objectNumber !== 0x4) {
+                    rectangle2D(map, mapWidth, newX, y, newX, y + 2, colorize(2, "█"));
+                }
             }
         }
 
-        // console.table({x, y, xSpace, newCeilingLevel, newFloorLevel: 13 - newFloorLevel});
-
         if (drawWall) {
             for (let i = 0; i < xSpace; i++) {
-                vLine2D(map, mapWidth, 0, 11, x + i, "█");
+                vLine2D(map, mapWidth, 0, 12, x + i, "█");
             }
             drawWall = false;
         } else if (!drawWall && xSpace !== 0) {
-            rectangle2D(map, mapWidth, x, 13 - floorLevel,  newX - 1, 12,           "█");
+            rectangle2D(map, mapWidth, x, 13 - floorLevel,  newX - 1, 13,           "█");
             rectangle2D(map, mapWidth, x, 0,                newX - 1, ceilingLevel, "█");
         }
 
@@ -443,10 +458,11 @@ const drawMap = async (level) => {
         // await sleep(1000);
     };
     if (x < mapWidth) {
-        rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 12,           "█");
+        rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 13,           "█");
         rectangle2D(map, mapWidth, x, 0,                mapWidth - 1, ceilingLevel, "█");
     }
-    draw2D(map, mapWidth);
+    let layers = layer2D(map, fg);
+    draw2D(layers, mapWidth);
 }
 
 exports.printDebugMap = printDebugMap;
