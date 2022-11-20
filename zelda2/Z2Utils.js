@@ -377,6 +377,13 @@ const drawMap = async (level) => {
         let newX = 0;
         let newFloorLevel = floorLevel;
         let newCeilingLevel = ceilingLevel;
+        
+        if (drawWall) {
+            for (let i = 0; i < xSpace; i++) {
+                vLine2D(map, mapWidth, 0, 12, newX + i, "█");
+            }
+            drawWall = false;
+        } 
 
         newX = x + xSpace;
         if (y === 0xD) {
@@ -404,7 +411,7 @@ const drawMap = async (level) => {
         } else {
             if (objectNumber === 0xF && y < 13) {
                 // SPECIAL OBJECT
-                plot2D(map, mapWidth, x, y, "!");
+                plot2D(map, mapWidth, newX, y, "!");
             } else if (objectNumber > 0xF) {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
@@ -431,13 +438,8 @@ const drawMap = async (level) => {
                 }
             }
         }
-
-        if (drawWall) {
-            for (let i = 0; i < xSpace; i++) {
-                vLine2D(map, mapWidth, 0, 12, x + i, "█");
-            }
-            drawWall = false;
-        } else if (!drawWall && xSpace !== 0) {
+        
+        if (xSpace !== 0) {
             rectangle2D(map, mapWidth, x, 13 - floorLevel,  newX - 1, 13,           "█");
             rectangle2D(map, mapWidth, x, 0,                newX - 1, ceilingLevel, "█");
         }
@@ -459,6 +461,9 @@ const drawMap = async (level) => {
         // await sleep(1000);
     };
     if (x < mapWidth) {
+        if (drawWall) {
+            rectangle2D(map, mapWidth, x, 0, mapWidth - 1, 13, "█");
+        }
         rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 13,           "█");
         rectangle2D(map, mapWidth, x, 0,                mapWidth - 1, ceilingLevel, "█");
     }
