@@ -96,31 +96,31 @@ const LARGE_OBJECT_SIZES = [
         0x3: {size: 2, type: "wide"},
         0x4: {size: 2, type: "wide"},
         0x5: {size: 1, type: "wide"},
-        0x6: {size: 1, type: "wide"},
+        0x6: {size: 1, type: "wide", solid: true},
         0x7: {size: 1, type: "wide"},
         0x8: {size: 1, type: "wide"},
         0x9: {size: 1, type: "wide"},
         0xA: {size: 1, type: "wide"},
         0xB: {size: 1, type: "wide"},
         0xC: {size: 1, type: "wide"},
-        0xD: {size: 1, type: "tall"},
+        0xD: {size: 1, type: "tall", solid: true},
         0xE: {size: 1, type: "tall"},
         0xF: {size: 1, type: "tall"},
     }, {
-        0x2: {size: 2, type: "wide"},
-        0x3: {size: 2, type: "wide"},
-        0x4: {size: 2, type: "wide"},
-        0x5: {size: 1, type: "wide"},
-        0x6: {size: 1, type: "wide"},
-        0x7: {size: 1, type: "wide"},
+        0x2: {size: 2, type: "wide", solid: true},
+        0x3: {size: 2, type: "wide", solid: true},
+        0x4: {size: 2, type: "wide", solid: true},
+        0x5: {size: 1, type: "wide", solid: true},
+        0x6: {size: 1, type: "wide", solid: true},
+        0x7: {size: 1, type: "wide", solid: true},
         0x8: {size: 1, type: "wide"},
         0x9: {size: 1, type: "wide"},
         0xA: {size: 1, type: "wide"},
         0xB: {size: 1, type: "wide"},
         0xC: {size: 1, type: "wide"},
-        0xD: {size: 1, type: "tall"},
-        0xE: {size: 1, type: "tall"},
-        0xF: {size: 1, type: "tall"},
+        0xD: {size: 1, type: "tall", solid: true},
+        0xE: {size: 1, type: "tall", solid: true},
+        0xF: {size: 1, type: "tall", solid: true},
     }
 ]
 
@@ -340,6 +340,7 @@ const sleep = (ms) => {
 const drawMap = async (level) => {
     let mapWidth = (level.header.widthOfLevelInScreens + 1) * WIDTH_OF_SCREEN;
     let objectSet = level.header.objectSet;
+    let noCeiling = level.header.noCeiling;
     let x = 0;
     let map = create2D(mapWidth, HEIGHT_OF_SCREEN);
     let [newLevel, c] = getFloorPosition(level.header.initialFloorPosition);
@@ -356,12 +357,15 @@ const drawMap = async (level) => {
         drawWall = true;
     }
 
+    if (noCeiling) {
+        ceilingLevel = 0;
+    }
+
     for (let element of level.levelElements) {
         let {yPosition: y, advanceCursor: xSpace, objectNumber, collectableObjectNumber} = element;
         let newX = 0;
         let newFloorLevel = floorLevel;
         let newCeilingLevel = ceilingLevel;
-        let noCeiling = false;
 
         newX = x + xSpace;
         if (y === 0xD) {
@@ -377,39 +381,40 @@ const drawMap = async (level) => {
                 drawWall = true;
             }
             // SMALL OBJECT
-            console.table(debugElement({...element, objectNumber, size}, "", objectSet));
+            // console.table(debugElement({...element, objectNumber, size}, "", objectSet));
         } else if (y === 0XE) {
             // SMALL OBJECT
-            console.table(debugElement({...element, objectNumber, size}, "", objectSet));
+            // console.table(debugElement({...element, objectNumber, size}, "", objectSet));
 
             newX = xSpace * 16;
         } else if (y === 0xF) {
             // EXTRA OBJECT
-            console.table(debugElement({...element, objectNumber, size}, "EXTRA", objectSet));
+            // console.table(debugElement({...element, objectNumber, size}, "EXTRA", objectSet));
         } else {
             if (objectNumber === 0xF && y < 13) {
                 // SPECIAL OBJECT
-                console.table(debugElement({...element, objectNumber, size}, "SPECIAL", objectSet));
+                // console.table(debugElement({...element, objectNumber, size}, "SPECIAL", objectSet));
 
                 plot2D(map, mapWidth, x, y, "!");
             } else if (objectNumber > 0xF) {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
                 objectNumber = objectNumber >> 4;
-                let {size: length, type} = LARGE_OBJECT_SIZES[objectSet][objectNumber];
+                let {size: length, type, solid} = LARGE_OBJECT_SIZES[objectSet][objectNumber];
+                let print = solid ? "█" : colorize(2, "█");
                 if (type === "wide") {
-                    rectangle2D(map, mapWidth, newX, y, newX + size, y + length, "█");
+                    rectangle2D(map, mapWidth, newX, y, newX + size, y + length, print);
                 } else if (type === "tall") {
-                    rectangle2D(map, mapWidth, newX, y, newX + length - 1, y + size, "█");
+                    rectangle2D(map, mapWidth, newX, y, newX + length - 1, y + size + 1, print);
                 }
-                console.table(debugElement({...element, objectNumber, size, length, type}, "LARGE", objectSet));
+                // console.table(debugElement({...element, objectNumber, size, length, type}, "LARGE", objectSet));
             } else {
                 // SMALL OBJECT
-                console.table(debugElement({...element, objectNumber, size}, "SMALL", objectSet));
+                // console.table(debugElement({...element, objectNumber, size}, "SMALL", objectSet));
             }
         }
 
-        console.table({x, y, xSpace, newCeilingLevel, newFloorLevel: 13 - newFloorLevel});
+        // console.table({x, y, xSpace, newCeilingLevel, newFloorLevel: 13 - newFloorLevel});
 
         if (drawWall) {
             for (let i = 0; i < xSpace; i++) {
@@ -428,14 +433,14 @@ const drawMap = async (level) => {
             ceilingLevel = 0;
         }
 
-        let f = plot2D(map, mapWidth, x, 13 - floorLevel, colorize(5, "^"));
-        let c = plot2D(map, mapWidth, x, ceilingLevel, colorize(5, "v"));
-        let p = plot2D(map, mapWidth, x, y, colorize(5, "*"));
-        draw2D(map, mapWidth);
-        plot2D(map, mapWidth, x, 13 - floorLevel, f);
-        plot2D(map, mapWidth, x, ceilingLevel, c);
-        plot2D(map, mapWidth, x, y, p);
-        await sleep(1000);
+        // let f = plot2D(map, mapWidth, x, 13 - floorLevel, colorize(5, "^"));
+        // let c = plot2D(map, mapWidth, x, ceilingLevel, colorize(5, "v"));
+        // let p = plot2D(map, mapWidth, x, y, colorize(5, "*"));
+        // draw2D(map, mapWidth);
+        // plot2D(map, mapWidth, x, 13 - floorLevel, f);
+        // plot2D(map, mapWidth, x, ceilingLevel, c);
+        // plot2D(map, mapWidth, x, y, p);
+        // await sleep(1000);
     };
     if (x < mapWidth) {
         rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 12,           "█");
