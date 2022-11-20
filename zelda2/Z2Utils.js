@@ -411,7 +411,7 @@ const drawMap = async (level) => {
         } else {
             if (objectNumber === 0xF && y < 13) {
                 // SPECIAL OBJECT
-                plot2D(map, mapWidth, newX, y, "!");
+                plot2D(fg, mapWidth, newX, y, "!");
             } else if (objectNumber > 0xF) {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
@@ -419,9 +419,9 @@ const drawMap = async (level) => {
                 let {size: length, type, solid} = LARGE_OBJECT_SIZES[objectSet][objectNumber];
                 let print = solid ? "█" : colorize(2, "█");
                 if (type === "wide") {
-                    rectangle2D(map, mapWidth, newX, y, newX + size, y + length, print);
+                    rectangle2D(solid ? map : fg, mapWidth, newX, y, newX + size, y + length, print);
                 } else if (type === "tall") {
-                    rectangle2D(map, mapWidth, newX, y, newX + length - 1, y + size + 1, print);
+                    rectangle2D(solid ? map : fg, mapWidth, newX, y, newX + length - 1, y + size + 1, print);
                 }
 
                 if (objectNumber === 0xA) {
