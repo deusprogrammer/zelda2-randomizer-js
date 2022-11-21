@@ -4,7 +4,7 @@ const {
     NES_HEADER_MAP } = require('./nes/NESMemoryMappings');
 const { calculateNESOffsets } = require('./nes/NESUtils');
 const { 
-    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, extractLevelExits, debugLevelExits } = require('./zelda2/Z2Utils');
+    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, debugLevelExits, extractLevelExits } = require('./zelda2/Z2Utils');
 
 require('./Utils');
 
@@ -42,20 +42,13 @@ let eastHyruleSpriteMap = extractEastHyruleSpriteMap(rom, mode);
 console.box("EAST HYRULE SPRITE MAP [GRAPHICAL]");
 printSpriteMap(eastHyruleSpriteMap, eastHyruleMap);
 
-let mapBanks = extractSideViewMapData(rom);
-let levelExitBanks = extractLevelExits(rom);
+let mapSets = extractSideViewMapData(rom);
+let levelExits = extractLevelExits(rom);
 
-console.box("EAST HYRULE LEVEL DATA");
-for (let name in westHyruleMap) {
-    let location = westHyruleMap[name];
+const MAP_SET = 6;
 
-    if (location.worldNumber !== 0) {
-        continue;
-    }
-
-    console.box(name);
-    debugMap(mapBanks, 0, 0, location.mapNumber);
-    debugLevelExits(levelExitBanks, 0, 0, location.mapNumber);
-    drawMap(mapBanks[0][0][location.mapNumber]);
-    console.log();
+for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
+    debugMap(mapSets, MAP_SET, mapNumber );
+    debugLevelExits(levelExits, MAP_SET, mapNumber );
+    drawMap(mapSets[MAP_SET][mapNumber ]);
 }
