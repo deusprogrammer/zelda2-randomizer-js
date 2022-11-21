@@ -65,10 +65,10 @@ printSpriteMap(mazeIslandMountainHyruleSpriteMap, mazeIslandMountainHyruleMap);
 let mapSets = extractSideViewMapData(rom);
 let levelExits = extractLevelExits(rom);
 
-const MAP_SET = 0;
-
-for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
-    debugMap(mapSets, MAP_SET, mapNumber );
-    debugLevelExits(levelExits, MAP_SET, mapNumber );
-    drawMap(mapSets[MAP_SET][mapNumber ]);
+for (let mapSet = 0; mapSet < mapSets.length; mapSet++) {
+    for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
+        debugMap(mapSets, mapSet, mapNumber );
+        debugLevelExits(levelExits, mapSet, mapNumber );
+        drawMap(mapSets[mapSet][mapNumber ]);
+    }
 }
