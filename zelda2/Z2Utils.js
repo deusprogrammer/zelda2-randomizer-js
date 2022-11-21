@@ -18,7 +18,15 @@ const {
     LEVEL_OBJECT_3B,
     LEVEL_EXITS_BANK_OFFSETS1,
     LEVEL_EXITS_BANK_OFFSETS2,
-    LEVEL_EXITS_MAPPING} = require("./Z2MemoryMappings");
+    LEVEL_EXITS_MAPPING,
+    DEATH_MOUNTAIN_LOCATION_MAPPINGS,
+    MAZE_ISLAND_LOCATION_MAPPINGS,
+    DEATH_MOUNTAIN_MAP_VANILLA_OFFSET,
+    DEATH_MOUNTAIN_MAP_RANDO_OFFSET,
+    MAZE_ISLAND_MAP_VANILLA_OFFSET,
+    MAZE_ISLAND_MAP_RANDO_OFFSET,
+    MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING,
+    DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING} = require("./Z2MemoryMappings");
 
 const WIDTH_OF_SCREEN  = 16;
 const HEIGHT_OF_SCREEN = 16;
@@ -152,6 +160,14 @@ const extractEastHyruleMapLocations = (buffer) => {
     return hexExtractor(EAST_HYRULE_LOCATION_MAPPINGS, buffer)[0];
 }
 
+const extractDeathMountainMapLocations = (buffer) => {
+    return hexExtractor(DEATH_MOUNTAIN_LOCATION_MAPPINGS, buffer)[0];
+}
+
+const extractMazeIslandMapLocations = (buffer) => {
+    return hexExtractor(MAZE_ISLAND_LOCATION_MAPPINGS, buffer)[0];
+}
+
 const extractWestHyruleSpriteMap = (buffer, mode) => {
     let offset = WEST_HYRULE_MAP_VANILLA_OFFSET;
     if (mode === "RANDO") {
@@ -166,6 +182,22 @@ const extractEastHyruleSpriteMap = (buffer, mode) => {
         offset = EAST_HYRULE_MAP_RANDO_OFFSET;
     }
     return extractElements(EAST_HYRULE_OVERWORLD_SPRITE_MAPPING, buffer, offset);
+}
+
+const extractDeathMountainSpriteMap = (buffer, mode) => {
+    let offset = DEATH_MOUNTAIN_MAP_VANILLA_OFFSET;
+    if (mode === "RANDO") {
+        offset = DEATH_MOUNTAIN_MAP_RANDO_OFFSET;
+    }
+    return extractElements(DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING, buffer, offset);
+}
+
+const extractMazeIslandSpriteMap = (buffer, mode) => {
+    let offset = MAZE_ISLAND_MAP_VANILLA_OFFSET;
+    if (mode === "RANDO") {
+        offset = MAZE_ISLAND_MAP_RANDO_OFFSET;
+    }
+    return extractElements(MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING, buffer, offset);
 }
 
 const extractSideViewMapData = (buffer) => {
@@ -468,6 +500,10 @@ exports.extractWestHyruleMapLocations = extractWestHyruleMapLocations;
 exports.extractEastHyruleMapLocations = extractEastHyruleMapLocations;
 exports.extractWestHyruleSpriteMap = extractWestHyruleSpriteMap;
 exports.extractEastHyruleSpriteMap = extractEastHyruleSpriteMap;
+exports.extractDeathMountainMapLocations = extractDeathMountainMapLocations;
+exports.extractMazeIslandMapLocations = extractMazeIslandMapLocations;
+exports.extractDeathMountainSpriteMap = extractDeathMountainSpriteMap;
+exports.extractMazeIslandSpriteMap = extractMazeIslandSpriteMap;
 exports.extractSideViewMapData = extractSideViewMapData;
 exports.extractLevelExits = extractLevelExits;
 exports.debugMap = debugMap;

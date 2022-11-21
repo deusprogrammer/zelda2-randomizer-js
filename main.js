@@ -4,7 +4,7 @@ const {
     NES_HEADER_MAP } = require('./nes/NESMemoryMappings');
 const { calculateNESOffsets } = require('./nes/NESUtils');
 const { 
-    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, debugLevelExits, extractLevelExits } = require('./zelda2/Z2Utils');
+    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, debugLevelExits, extractLevelExits, extractDeathMountainMapLocations, extractDeathMountainSpriteMap, extractMazeIslandSpriteMap, extractMazeIslandMapLocations } = require('./zelda2/Z2Utils');
 
 require('./Utils');
 
@@ -41,6 +41,26 @@ let eastHyruleSpriteMap = extractEastHyruleSpriteMap(rom, mode);
 
 console.box("EAST HYRULE SPRITE MAP [GRAPHICAL]");
 printSpriteMap(eastHyruleSpriteMap, eastHyruleMap);
+
+let deathMountainHyruleMap = extractDeathMountainMapLocations(rom);
+
+console.box("DEATH MOUNTAIN MAP LOCATIONS [DATA]");
+console.table(deathMountainHyruleMap);
+
+let deathMountainHyruleSpriteMap = extractDeathMountainSpriteMap(rom, mode);
+
+console.box("DEATH MOUNTAIN SPRITE MAP [GRAPHICAL]");
+printSpriteMap(deathMountainHyruleSpriteMap, deathMountainHyruleMap);
+
+let mazeIslandMountainHyruleMap = extractMazeIslandMapLocations(rom);
+
+console.box("MAZE ISLAND MAP LOCATIONS [DATA]");
+console.table(mazeIslandMountainHyruleMap);
+
+let mazeIslandMountainHyruleSpriteMap = extractMazeIslandSpriteMap(rom, mode);
+
+console.box("MAZE ISLAND SPRITE MAP [GRAPHICAL]");
+printSpriteMap(mazeIslandMountainHyruleSpriteMap, mazeIslandMountainHyruleMap);
 
 let mapSets = extractSideViewMapData(rom);
 let levelExits = extractLevelExits(rom);

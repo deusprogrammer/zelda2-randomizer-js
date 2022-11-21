@@ -476,6 +476,466 @@ const WEST_HYRULE_LOCATION_MAPPINGS = {
     }
 }
 
+const DEATH_MOUNTAIN_MAP_RANDO_OFFSET = 0x7A00;
+const DEATH_MOUNTAIN_MAP_VANILLA_OFFSET = 0x665C;
+const DEATH_MOUNTAIN_MAP_LENGTH = 0x6942 - 0x665C;
+
+const DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING = {
+    size: WEST_HYRULE_MAP_LENGTH,
+    elements: {
+        size: 0x01,
+        fields: [
+            {
+                name: 'length',
+                relOffset: 0x0,
+                mask: 0b11110000
+            },
+            {
+                name: 'type',
+                relOffset: 0x0,
+                mask: 0b00001111
+            }
+        ]
+    }
+}
+
+const DEATH_MOUNTAIN_LOCATION_MAPPINGS = {
+    CAVE_B_W: {
+        offset: 0x610C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_B_E: {
+        offset: 0x610D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_C_E: {
+        offset: 0x610E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_C_W: {
+        offset: 0x610F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_E_N: {
+        offset: 0x6110,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_E_S: {
+        offset: 0x6111,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_D_E: {
+        offset: 0x6112,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_D_W: {
+        offset: 0x6113,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_F_E: {
+        offset: 0x6114,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_F_W: {
+        offset: 0x6115,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_J_E: {
+        offset: 0x6116,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_J_W: {
+        offset: 0x6117,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_I_S: {
+        offset: 0x6118,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_I_N: {
+        offset: 0x6119,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_L_S: {
+        offset: 0x611A,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_L_N: {
+        offset: 0x611B,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_O_S: {
+        offset: 0x611C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_O_N: {
+        offset: 0x611D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_M_E: {
+        offset: 0x611E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_M_W: {
+        offset: 0x611F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_P_E: {
+        offset: 0x6120,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_P_W: {
+        offset: 0x6121,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_Q_E: {
+        offset: 0x6122,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_Q_W: {
+        offset: 0x6123,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_R_S: {
+        offset: 0x6124,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_R_N: {
+        offset: 0x6125,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_N_S: {
+        offset: 0x6126,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_N_N: {
+        offset: 0x6127,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    HAMMER_CAVE: {
+        offset: 0x6128,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_E_BL: {
+        offset: 0x6129,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_W_BR: {
+        offset: 0x612A,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_E_TL: {
+        offset: 0x612B,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_W_TR: {
+        offset: 0x612C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_E_TL: {
+        offset: 0x612D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_W_TR: {
+        offset: 0x612E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_D_BL: {
+        offset: 0x612F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_N_BR: {
+        offset: 0x6130,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_2: {
+        offset: 0x6131,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_1: {
+        offset: 0x6132,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_MAGIC: {
+        offset: 0x6133,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    EAST_HYRULE_BRIDGE: {
+        offset: 0x6134,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_A: {
+        offset: 0x6136,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_K: {
+        offset: 0x6137,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    P4: {
+        offset: 0x6140,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_CHILD: {
+        offset: 0x6143,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    DM_MAGIC: {
+        offset: 0x6144,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_3: {
+        offset: 0x6145,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_7: {
+        offset: 0x6146,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_4: {
+        offset: 0x6147,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_5: {
+        offset: 0x6148,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_6: {
+        offset: 0x6149,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+}
+
+const MAZE_ISLAND_MAP_RANDO_OFFSET = 0xBA00;
+const MAZE_ISLAND_MAP_VANILLA_OFFSET = 0xA65C;
+const MAZE_ISLAND_MAP_LENGTH = 0xA942 - 0xA65C;
+
+const MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING = {
+    size: WEST_HYRULE_MAP_LENGTH,
+    elements: {
+        size: 0x01,
+        fields: [
+            {
+                name: 'length',
+                relOffset: 0x0,
+                mask: 0b11110000
+            },
+            {
+                name: 'type',
+                relOffset: 0x0,
+                mask: 0b00001111
+            }
+        ]
+    }
+}
+
+const MAZE_ISLAND_LOCATION_MAPPINGS = {
+    CAVE_B_W: {
+        offset: 0xA10C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_B_E: {
+        offset: 0xA10D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_C_E: {
+        offset: 0xA10E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_C_W: {
+        offset: 0xA10F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_E_N: {
+        offset: 0xA110,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_E_S: {
+        offset: 0xA111,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_D_E: {
+        offset: 0xA112,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_D_W: {
+        offset: 0xA113,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_F_E: {
+        offset: 0xA114,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_F_W: {
+        offset: 0xA115,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_J_E: {
+        offset: 0xA116,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_J_W: {
+        offset: 0xA117,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_I_S: {
+        offset: 0xA118,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_I_N: {
+        offset: 0xA119,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_L_S: {
+        offset: 0xA11A,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_L_N: {
+        offset: 0xA11B,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_O_S: {
+        offset: 0xA11C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_O_N: {
+        offset: 0xA11D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_M_E: {
+        offset: 0xA11E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_M_W: {
+        offset: 0xA11F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_P_E: {
+        offset: 0xA120,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_P_W: {
+        offset: 0xA121,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_Q_E: {
+        offset: 0xA122,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_Q_W: {
+        offset: 0xA123,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_R_S: {
+        offset: 0xA124,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_R_N: {
+        offset: 0xA125,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_N_S: {
+        offset: 0xA126,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_N_N: {
+        offset: 0xA127,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    HAMMER_CAVE: {
+        offset: 0xA128,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_E_BL: {
+        offset: 0xA129,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_W_BR: {
+        offset: 0xA12A,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_E_TL: {
+        offset: 0xA12B,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_G_W_TR: {
+        offset: 0xA12C,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_E_TL: {
+        offset: 0xA12D,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_W_TR: {
+        offset: 0xA12E,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_D_BL: {
+        offset: 0xA12F,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    ELEVATOR_CAVE_H_N_BR: {
+        offset: 0xA130,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_2: {
+        offset: 0xA131,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_1: {
+        offset: 0xA132,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_MAGIC: {
+        offset: 0xA133,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    EAST_HYRULE_BRIDGE: {
+        offset: 0xA134,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_A: {
+        offset: 0xA136,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    CAVE_K: {
+        offset: 0xA137,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    P4: {
+        offset: 0xA140,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_CHILD: {
+        offset: 0xA143,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    DM_MAGIC: {
+        offset: 0xA144,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_3: {
+        offset: 0xA145,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_7: {
+        offset: 0xA146,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_4: {
+        offset: 0xA147,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_5: {
+        offset: 0xA148,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+    MAZE_ISLAND_FORCED_BATTLE_6: {
+        offset: 0xA149,
+        fields: LOCATION_MAPPING_FIELDS
+    },
+}
+
 const EAST_HYRULE_MAP_RANDO_OFFSET      = 0xB480;
 const EAST_HYRULE_MAP_VANILLA_OFFSET    = 0x9056;
 const EAST_HYRULE_MAP_LENGTH            = 0x936F - 0x9056;
@@ -675,6 +1135,8 @@ exports.LEVEL_OBJECT_3B                         = LEVEL_OBJECT_3B;
 
 exports.WEST_HYRULE_OVERWORLD_SPRITE_MAPPING    = WEST_HYRULE_OVERWORLD_SPRITE_MAPPING;
 exports.EAST_HYRULE_OVERWORLD_SPRITE_MAPPING    = EAST_HYRULE_OVERWORLD_SPRITE_MAPPING;
+exports.DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING = DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING;
+exports.MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING    = MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING;
 exports.OVERWORLD_SPRITE_TYPES                  = OVERWORLD_SPRITE_TYPES;
 
 exports.MAP_POINTER_BANK_OFFSETS1               = MAP_POINTER_BANK_OFFSETS1;
@@ -694,6 +1156,16 @@ exports.EAST_HYRULE_LOCATION_MAPPINGS           = EAST_HYRULE_LOCATION_MAPPINGS;
 exports.EAST_HYRULE_MAP_RANDO_OFFSET            = EAST_HYRULE_MAP_RANDO_OFFSET;
 exports.EAST_HYRULE_MAP_VANILLA_OFFSET          = EAST_HYRULE_MAP_VANILLA_OFFSET;
 exports.EAST_HYRULE_MAP_LENGTH                  = EAST_HYRULE_MAP_LENGTH;
+
+exports.DEATH_MOUNTAIN_LOCATION_MAPPINGS        = DEATH_MOUNTAIN_LOCATION_MAPPINGS;
+exports.DEATH_MOUNTAIN_MAP_RANDO_OFFSET         = DEATH_MOUNTAIN_MAP_RANDO_OFFSET;
+exports.DEATH_MOUNTAIN_MAP_VANILLA_OFFSET       = DEATH_MOUNTAIN_MAP_VANILLA_OFFSET;
+exports.DEATH_MOUNTAIN_MAP_LENGTH               = DEATH_MOUNTAIN_MAP_LENGTH;
+
+exports.MAZE_ISLAND_LOCATION_MAPPINGS           = MAZE_ISLAND_LOCATION_MAPPINGS;
+exports.MAZE_ISLAND_MAP_RANDO_OFFSET            = MAZE_ISLAND_MAP_RANDO_OFFSET;
+exports.MAZE_ISLAND_MAP_VANILLA_OFFSET          = MAZE_ISLAND_MAP_VANILLA_OFFSET;
+exports.MAZE_ISLAND_MAP_LENGTH                  = MAZE_ISLAND_MAP_LENGTH;
 
 exports.toFileAddr = toFileAddr;
 
