@@ -21,6 +21,8 @@ Eventually I hope to match the randomization function of the existing Z2 Randomi
 * Extracting map exit data
 * Rendering maps
     * Overworld Locations
+    * Palaces
+    * Towns
 * Rendering overworld maps
     * West Hyrule
     * East Hyrule
@@ -30,11 +32,6 @@ Eventually I hope to match the randomization function of the existing Z2 Randomi
 * Extracting overworld map locations
     * Death Mountain
     * Maze Palace
-* Extracting map data
-* Extracting map exit data
-* Rendering maps
-    * Palaces
-    * Towns
 * Rendering overworld maps
     * Death Mountain
     * Maze Palace
