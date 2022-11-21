@@ -95,4 +95,17 @@ const NES_HEADER_MAP = [
     }
 ]
 
+const PPU_ADDRESS_MAP = [
+    {
+        name: "patternTableSide",
+        relOffset: 0x01000000,
+
+    },
+    {
+        name: "tileRow",
+        relOffset: 0x00111100,
+
+    },
+];
+
 exports.NES_HEADER_MAP = NES_HEADER_MAP;

@@ -2,6 +2,9 @@ const toFileAddr = (ramAddress, bank) => {
     return (ramAddress - 0x8000) + (bank * 0x4000) + 0x10;
 }
 
+const TOWN_PPU_DATA_OFFSET = 0x007B3;
+const PPU_DATA_LENGTH = 0x4;
+
 const LEVEL_EXIT_MAPPING = [
     {
         name: 'mapNumber',
