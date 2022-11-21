@@ -41,89 +41,131 @@ const OVERWORLD_SPRITE_SYMBOLS = [
     "\033[43m≡\033[0m"
 ]
 
-const SMALL_OBJECTS = [
-    "headstone",
-    "cross",
-    "angled cross",
-    "tree stump",
-    "stone table",
-    "locked door",
-    "zelda",
-    "zelda",
-    "pit",
-    "cloud",
-    "cloud",
-    "cloud",
-    "cloud",
-    "cloud",
-    "cloud"
-]
+const OVERWORLD_SMALL_OBJECTS = {
+        0x0: {name: "headstone",                    height: 1, width: 1, size: 1, type: "wide"},
+        0x1: {name: "cross",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x2: {name: "angled cross",                 height: 1, width: 1, size: 1, type: "wide"},
+        0x3: {name: "tree stump",                   height: 2, width: 1, size: 2, type: "tall", solid: true},
+        0x4: {name: "stone table",                  height: 1, width: 1, size: 4, type: "wide", solid: true},
+        0x5: {name: "zelda",                        height: 1, width: 2, size: 1, type: "wide"},
+        0x6: {name: "zelda",                        height: 1, width: 2, size: 2, type: "wide"},
+        0x7: {name: "pit",                          height: 1, width: 1, size: 2, type: "wide"},
+        0x8: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x9: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xA: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xB: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xC: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xD: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xE: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xF: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+}
 
-const OBJECT_SETS = [
+const OVERWORLD_LARGE_OBJECTS = [
     {
-        0x2: "forest ceiling, two high",
-        0x3: "forest ceiling, two high",
-        0x4: "curtains, two high",
-        0x5: "forest ceiling, one high",
-        0x6: "handy glove blocks, one high",
-        0x7: "horizontal pit, one high",
-        0x8: "single weed, one high",
-        0x9: "two weeds, one high",
-        0xA: "north castle steps, one high",
-        0xB: "background bricks, one high",
-        0xC: "volcano background, one high",
-        0xD: "handy glove block, one wide",
-        0xE: "background tree, one wide",
-        0xF: "column, one wide"
+        0x2: {name: "forest ceiling",               height: 2, width: 1, size: 2, type: "wide"},
+        0x3: {name: "forest ceiling",               height: 2, width: 1, size: 2, type: "wide"},
+        0x4: {name: "curtains",                     height: 2, width: 1, size: 2, type: "wide"},
+        0x5: {name: "forest ceiling",               height: 1, width: 1, size: 1, type: "wide"},
+        0x6: {name: "handy glove block",            height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x7: {name: "horizontal pit",               height: 1, width: 1, size: 1, type: "wide"},
+        0x8: {name: "single weed",                  height: 1, width: 1, size: 1, type: "wide"},
+        0x9: {name: "two weeds",                    height: 1, width: 1, size: 1, type: "wide"},
+        0xA: {name: "north castle steps",           height: 1, width: 1, size: 1, type: "wide"},
+        0xB: {name: "background bricks",            height: 1, width: 1, size: 1, type: "wide"},
+        0xC: {name: "volcano background",           height: 1, width: 1, size: 1, type: "wide"},
+        0xD: {name: "handy glove block",            height: 1, width: 1, size: 1, type: "tall", solid: true},
+        0xE: {name: "background tree",              height: 1, width: 1, size: 1, type: "tall"},
+        0xF: {name: "column",                       height: 1, width: 1, size: 1, type: "tall"},
     }, {
-        0x2: "wide rock floor, two high",
-        0x3: "wide rock ceiling, two high",
-        0x4: "bridge, two high",
-        0x5: "cave blocks, one high",
-        0x6: "handy glove blocks, one high",
-        0x7: "collapsing bridge, one high",
-        0x8: "single weed, one high",
-        0x9: "two weeds, one high",
-        0xA: "horizontal pit, one high",
-        0xB: "background bricks, one high",
-        0xC: "volcano background, one high",
-        0xD: "handy glove block, one wide",
-        0xE: "tall rock floor, one wide",
-        0xF: "stone spire"
+        0x2: { name: "rock floor",                  height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x3: { name: "rock ceiling",                height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x4: { name: "bridge",                      height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x5: { name: "cave blocks",                 height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x6: { name: "handy glove blocks",          height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x7: { name: "collapsing bridge",           height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x8: { name: "single weed",                 height: 1, width: 1, size: 1, type: "wide"},
+        0x9: { name: "two weeds",                   height: 1, width: 1, size: 1, type: "wide"},
+        0xA: { name: "horizontal pit",              height: 1, width: 1, size: 1, type: "wide"},
+        0xB: { name: "background bricks",           height: 1, width: 1, size: 1, type: "wide"},
+        0xC: { name: "volcano background",          height: 1, width: 1, size: 1, type: "wide"},
+        0xD: { name: "handy glove block",           height: 1, width: 1, size: 1, type: "tall", solid: true},
+        0xE: { name: "rock floor",                  height: 1, width: 1, size: 1, type: "tall", solid: true},
+        0xF: { name: "stone spire",                 height: 1, width: 1, size: 1, type: "tall", solid: true},
     }
 ]
 
-const LARGE_OBJECT_SIZES = [
+const TOWN_SMALL_OBJECTS = {
+        0x1: {name: "open door grass",              height: 4, width: 1, size: 4, type: "tall"},
+        0x0: {name: "closed door grass",            height: 4, width: 1, size: 4, type: "tall"},
+        0x2: {name: "open door h bricks",           height: 4, width: 1, size: 4, type: "tall"},
+        0x3: {name: "open door v bricks",           height: 4, width: 1, size: 4, type: "tall"},
+        0x4: {name: "stone table",                  height: 1, width: 1, size: 4, type: "wide"},
+        0x5: {name: "chair",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x6: {name: "?",                            height: 1, width: 1, size: 1, type: "wide"},
+        0x7: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x8: {name: "table",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x9: {name: "bench",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xA: {name: "cross",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xB: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xC: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xD: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xE: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+}
+
+const TOWN_LARGE_OBJECTS = [
     {
-        0x2: {size: 2, type: "wide"},
-        0x3: {size: 2, type: "wide"},
-        0x4: {size: 2, type: "wide"},
-        0x5: {size: 1, type: "wide"},
-        0x6: {size: 1, type: "wide", solid: true},
-        0x7: {size: 1, type: "wide"},
-        0x8: {size: 1, type: "wide"},
-        0x9: {size: 1, type: "wide"},
-        0xA: {size: 1, type: "wide"},
-        0xB: {size: 1, type: "wide"},
-        0xC: {size: 1, type: "wide"},
-        0xD: {size: 1, type: "tall", solid: true},
-        0xE: {size: 1, type: "tall"},
-        0xF: {size: 1, type: "tall"},
-    }, {
-        0x2: {size: 2, type: "wide", solid: true},
-        0x3: {size: 2, type: "wide", solid: true},
-        0x4: {size: 2, type: "wide", solid: true},
-        0x5: {size: 1, type: "wide", solid: true},
-        0x6: {size: 1, type: "wide", solid: true},
-        0x7: {size: 1, type: "wide", solid: true},
-        0x8: {size: 1, type: "wide"},
-        0x9: {size: 1, type: "wide"},
-        0xA: {size: 1, type: "wide"},
-        0xB: {size: 1, type: "wide"},
-        0xC: {size: 1, type: "wide"},
-        0xD: {size: 1, type: "tall", solid: true},
-        0xE: {size: 1, type: "tall", solid: true},
-        0xF: {size: 1, type: "tall", solid: true},
+        0x2: { name: "cross thatched roof",         height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x3: { name: "gray vertical roof",          height: 2, width: 1,  size: 2, type: "wide", solid: true},
+        0x4: { name: "green vertical roof",         height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x5: { name: "brick building",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x6: { name: "white building",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x7: { name: "grass building",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x8: { name: "white brick wall",            height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x9: { name: "log building",                height: 1, width: 1, size: 1, type: "wide"},
+        0xA: { name: "brown windows square",        height: 2, width: 1, size: 1, type: "wide"},
+        0xB: { name: "gray windows round",          height: 2, width: 1, size: 1, type: "wide"},
+        0xC: { name: "brown windows round",         height: 2, width: 1, size: 1, type: "wide"},
+        0xD: { name: "blue bricks",                 height: 2, width: 1, size: 1, type: "tall", solid: true},
+        0xE: { name: "column",                      height: 2, width: 1, size: 1, type: "tall"},
+        0xF: { name: "castle background bricks",    height: 1, width: 1, size: 1, type: "tall"},
+    }
+]
+
+const PALACE_SMALL_OBJECTS = {
+        0x1: {name: "window",              height: 4, width: 1, size: 4, type: "tall"},
+        0x0: {name: "rightward unicorn",            height: 4, width: 1, size: 4, type: "tall"},
+        0x2: {name: "leftward wolf",           height: 4, width: 1, size: 4, type: "tall"},
+        0x3: {name: "crystal statue",           height: 4, width: 1, size: 4, type: "tall"},
+        0x4: {name: "crystal statue",                  height: 1, width: 1, size: 4, type: "wide"},
+        0x5: {name: "locked door",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x6: {name: "locked door",                            height: 1, width: 1, size: 1, type: "wide"},
+        0x7: {name: "cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x8: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0x9: {name: "ironknuckle statue",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xA: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xB: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xC: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xD: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+        0xE: {name: "small cloud",                        height: 1, width: 1, size: 1, type: "wide"},
+}
+
+const PALACE_LARGE_OBJECTS = [
+    {
+        0x1: { name: "horizontal pit",         height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x2: { name: "horizontal bricks",         height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x3: { name: "breakable blocks",          height: 2, width: 1,  size: 2, type: "wide", solid: true},
+        0x4: { name: "steel blocks",         height: 2, width: 1, size: 2, type: "wide", solid: true},
+        0x5: { name: "breaking bridge",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x6: { name: "breakable blocks",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x7: { name: "horizontal bricks",              height: 1, width: 1, size: 1, type: "wide", toGround: true},
+        0x8: { name: "curtains",            height: 1, width: 1, size: 1, type: "wide", solid: true},
+        0x9: { name: "breakable blocks",                height: 1, width: 1, size: 1, type: "wide"},
+        0xA: { name: "horizontal bricks",        height: 2, width: 1, size: 1, type: "wide"},
+        0xB: { name: "breakable blocks",          height: 2, width: 1, size: 1, type: "wide"},
+        0xC: { name: "walk-thru bricks",         height: 2, width: 1, size: 1, type: "wide"},
+        0xD: { name: "breakable blocks",                 height: 2, width: 1, size: 1, type: "tall", solid: true},
+        0xE: { name: "pit",                      height: 2, width: 1, size: 1, type: "tall"},
+        0xF: { name: "horizontal pit",    height: 1, width: 1, size: 1, type: "tall"},
     }
 ]
 
@@ -160,9 +202,9 @@ const debugElement = (element, type, objectSet = 0) => {
         let object = null;
         if (type === "LARGE") {
             objectNumber = objectNumber & 0b00001111;
-            object = OBJECT_SETS[objectSet][objectNumber];
+            object = OVERWORLD_LARGE_OBJECTS[objectSet][objectNumber].name;
         } else if (type === "SMALL") {
-            object = SMALL_OBJECTS[objectNumber];
+            object = OVERWORLD_SMALL_OBJECTS[objectNumber].name;
         }
         v.object = object;
     }
@@ -275,7 +317,11 @@ const extractSideViewMapData = (buffer) => {
                 }
                 levelElements.push(levelObject);
             }
-            newBank1.push({header, levelElements, offset: mapPointer});
+            newBank1.push({header, levelElements, worldNumber: bank + 1, offset: mapPointer});
+        }
+
+        if (bank + 1 === 3 || bank + 1 === 5) {
+            continue;
         }
         
         offset = MAP_POINTER_BANK_OFFSETS2[bank];
@@ -297,7 +343,7 @@ const extractSideViewMapData = (buffer) => {
                 }
                 levelElements.push(levelObject);
             }
-            newBank2.push({header, levelElements, offset: mapPointer});
+            newBank2.push({header, levelElements, worldNumber: bank + 1, offset: mapPointer});
         }
 
         banks.push([newBank1, newBank2]);
@@ -441,7 +487,7 @@ const drawMap = async (level) => {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
                 objectNumber = objectNumber >> 4;
-                let {size: length, type, solid} = LARGE_OBJECT_SIZES[objectSet][objectNumber];
+                let {size: length, type, solid} = OVERWORLD_LARGE_OBJECTS[objectSet][objectNumber];
                 let print = solid ? "█" : colorize(2, "█");
                 if (type === "wide") {
                     rectangle2D(solid ? map : fg, mapWidth, newX, y, newX + size, y + length, print);
