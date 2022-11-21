@@ -2,6 +2,42 @@ const toFileAddr = (ramAddress, bank) => {
     return (ramAddress - 0x8000) + (bank * 0x4000) + 0x10;
 }
 
+const LEVEL_EXIT_MAPPING = [
+    {
+        name: 'mapNumber',
+        relOffset: 0x00,
+        mask: 0b11111100
+    },
+    {
+        name: 'xCoord',
+        relOffset: 0x00,
+        mask: 0b00000011
+    }
+];
+
+const LEVEL_EXITS_MAPPING = {
+    leftExit: {
+        size: 0x1,
+        offset: 0x0,
+        fields: LEVEL_EXIT_MAPPING
+    },
+    downExit: {
+        size: 0x1,
+        offset: 0x1,
+        fields: LEVEL_EXIT_MAPPING
+    },
+    upExit: {
+        size: 0x1,
+        offset: 0x2,
+        fields: LEVEL_EXIT_MAPPING
+    },
+    rightExit: {
+        size: 0x1,
+        offset: 0x3,
+        fields: LEVEL_EXIT_MAPPING
+    }
+}
+
 const LEVEL_HEADER_MAPPING = [
     {
         name: 'sizeOfLevel',
@@ -209,7 +245,26 @@ const MAP_POINTER_BANK_OFFSETS2 = [
     toFileAddr(MAP_POINTER_OFFSET2, 3),
     toFileAddr(MAP_POINTER_OFFSET2, 4),
     toFileAddr(MAP_POINTER_OFFSET2, 5),
-]
+];
+
+const LEVEL_EXITS_OFFSET1 = 0x871B;
+const LEVEL_EXITS_OFFSET2 = 0xA1F8;
+
+const LEVEL_EXITS_BANK_OFFSETS1 = [
+    toFileAddr(LEVEL_EXITS_OFFSET1, 1),
+    toFileAddr(LEVEL_EXITS_OFFSET1, 2),
+    toFileAddr(LEVEL_EXITS_OFFSET1, 3),
+    toFileAddr(LEVEL_EXITS_OFFSET1, 4),
+    toFileAddr(LEVEL_EXITS_OFFSET1, 5),
+];
+
+const LEVEL_EXITS_BANK_OFFSETS2 = [
+    toFileAddr(LEVEL_EXITS_OFFSET2, 1),
+    toFileAddr(LEVEL_EXITS_OFFSET2, 2),
+    toFileAddr(LEVEL_EXITS_OFFSET2, 3),
+    toFileAddr(LEVEL_EXITS_OFFSET2, 4),
+    toFileAddr(LEVEL_EXITS_OFFSET2, 5),
+];
 
 const WEST_HYRULE_MAP_RANDO_OFFSET      = 0x7480;
 const WEST_HYRULE_MAP_VANILLA_OFFSET    = 0x506C;
@@ -624,7 +679,11 @@ exports.OVERWORLD_SPRITE_TYPES                  = OVERWORLD_SPRITE_TYPES;
 
 exports.MAP_POINTER_BANK_OFFSETS1               = MAP_POINTER_BANK_OFFSETS1;
 exports.MAP_POINTER_BANK_OFFSETS2               = MAP_POINTER_BANK_OFFSETS2;
+
 exports.LEVEL_HEADER_MAPPING                    = LEVEL_HEADER_MAPPING;
+exports.LEVEL_EXITS_MAPPING                     = LEVEL_EXITS_MAPPING;
+exports.LEVEL_EXITS_BANK_OFFSETS1               = LEVEL_EXITS_BANK_OFFSETS1;
+exports.LEVEL_EXITS_BANK_OFFSETS2               = LEVEL_EXITS_BANK_OFFSETS2;
 
 exports.WEST_HYRULE_LOCATION_MAPPINGS           = WEST_HYRULE_LOCATION_MAPPINGS;
 exports.WEST_HYRULE_MAP_RANDO_OFFSET            = WEST_HYRULE_MAP_RANDO_OFFSET;

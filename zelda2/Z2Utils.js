@@ -14,7 +14,10 @@ const {
     MAP_POINTER_BANK_OFFSETS1,
     MAP_POINTER_BANK_OFFSETS2,
     LEVEL_OBJECT,
-    LEVEL_OBJECT_3B} = require("./Z2MemoryMappings");
+    LEVEL_OBJECT_3B,
+    LEVEL_EXITS_BANK_OFFSETS1,
+    LEVEL_EXITS_BANK_OFFSETS2,
+    LEVEL_EXITS_MAPPING} = require("./Z2MemoryMappings");
 
 const WIDTH_OF_SCREEN  = 16;
 const HEIGHT_OF_SCREEN = 16;
@@ -303,6 +306,21 @@ const extractSideViewMapData = (buffer) => {
     return banks;
 }
 
+const extractLevelExits = (buffer) => {
+    let banks = [];
+    for (let bank = 0; bank < 5; bank++) {
+        let offset = LEVEL_EXITS_BANK_OFFSETS1[bank];
+        let newBank1 = hexArrayExtractor(LEVEL_EXITS_MAPPING, buffer, 63, offset);
+        
+        offset = LEVEL_EXITS_BANK_OFFSETS2[bank];
+        let newBank2 = hexArrayExtractor(LEVEL_EXITS_MAPPING, buffer, 63, offset);
+
+        banks.push([newBank1, newBank2]);
+    }
+
+    return banks;
+}
+
 const debugMap = (banks, bank, mapSet, mapNumber) => {
     let level = banks[bank][mapSet][mapNumber];
     console.box("BANK " + (bank + 1) + `[0x${MAP_POINTER_BANK_OFFSETS1[bank].toString(16)}]`);
@@ -312,6 +330,13 @@ const debugMap = (banks, bank, mapSet, mapNumber) => {
     console.box("DATA");
     console.log("OFFSET: 0x" + level.offset.toString(16));
     console.hexTable(level.levelElements);
+}
+
+const debugLevelExits = (banks, bank, mapSet, mapNumber) => {
+    let level = banks[bank][mapSet][mapNumber];
+    console.box("BANK " + (bank + 1) + `[0x${LEVEL_EXITS_BANK_OFFSETS1[bank].toString(16)}]`);
+    console.box("MAP " + mapNumber + "-" + mapSet);
+    console.table(level);
 }
 
 const debugMapBank = (banks, bank, mapSet) => {
@@ -478,6 +503,8 @@ exports.extractEastHyruleMapLocations = extractEastHyruleMapLocations;
 exports.extractWestHyruleSpriteMap = extractWestHyruleSpriteMap;
 exports.extractEastHyruleSpriteMap = extractEastHyruleSpriteMap;
 exports.extractSideViewMapData = extractSideViewMapData;
+exports.extractLevelExits = extractLevelExits;
 exports.debugMap = debugMap;
+exports.debugLevelExits = debugLevelExits;
 exports.debugMapBank = debugMapBank;
 exports.drawMap = drawMap;
