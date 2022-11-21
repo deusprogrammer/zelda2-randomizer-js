@@ -45,7 +45,7 @@ printSpriteMap(eastHyruleSpriteMap, eastHyruleMap);
 let mapSets = extractSideViewMapData(rom);
 let levelExits = extractLevelExits(rom);
 
-const MAP_SET = 6;
+const MAP_SET = 0;
 
 for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
     debugMap(mapSets, MAP_SET, mapNumber );

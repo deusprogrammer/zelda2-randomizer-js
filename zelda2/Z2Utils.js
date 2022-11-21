@@ -170,9 +170,8 @@ const extractEastHyruleSpriteMap = (buffer, mode) => {
 
 const extractSideViewMapData = (buffer) => {
     let mapSets = [];
-    let maps = [];
-    let mapSetNumber = 0;
     for (let bank = 0; bank < 5; bank++) {
+        let maps = [];
         let offset = MAP_POINTER_BANK_OFFSETS1[bank];
         for (let i = 0; i < 63; i++, offset += 0x2) {
             let mapPointer = readUint16(buffer, offset);
@@ -191,11 +190,10 @@ const extractSideViewMapData = (buffer) => {
                 }
                 levelElements.push(levelObject);
             }
-            maps.push({header, levelElements, mapSetNumber, offset: mapPointer});
+            maps.push({header, levelElements, mapSetNumber: mapSets.length, offset: mapPointer});
         }
 
         mapSets.push(maps);
-        mapSetNumber += 1;
 
         if (bank === 2 || bank === 4) {
             continue;
@@ -220,11 +218,10 @@ const extractSideViewMapData = (buffer) => {
                 }
                 levelElements.push(levelObject);
             }
-            maps.push({header, levelElements, mapSetNumber, offset: mapPointer});
+            maps.push({header, levelElements, mapSetNumber: mapSets.length, offset: mapPointer});
         }
 
         mapSets.push(maps);
-        mapSetNumber += 1;
     }
 
     return mapSets;
@@ -261,7 +258,37 @@ const debugMap = (mapSets, mapSetNumber, mapNumber) => {
     console.table({mapSetNumber: level.mapSetNumber});
     console.box("DATA");
     console.log("OFFSET: 0x" + level.offset.toString(16));
-    console.hexTable(level.levelElements);
+    console.table(level.levelElements.map((element) => {
+        let {objectNumber, yPosition} = element;
+        let originalObjectNumber = objectNumber;
+        let object = "unknown";
+        let size = 1;
+        if (yPosition === 0xD) {
+            object = "CHANGE FLOOR POSITION";
+        } else if (yPosition === 0xE) {
+            object = "SKIP";
+        } else if (yPosition === 0xF) {
+            object = "Extra Object";
+        } else {
+            if (objectNumber === 0xF && yPosition < 13) {
+                object = "Collectible Object";
+            } else if (objectNumber > 0xF) {
+                size = objectNumber & 0b00001111;
+                objectNumber = objectNumber >> 4;
+                let {name, type, width, height} = LARGE_OBJECT_SETS[mapSetNumber][level.header.objectSet][objectNumber];
+                object = `${name} [${type}] ${width}X${height}`;
+            } else if (objectNumber <= 0xF) {
+                let {name, type, width, height} = SMALL_OBJECTS[mapSetNumber][objectNumber];
+                object = `${name} [${type}] ${width}X${height}`;
+            }
+        }
+        return {
+            ...element,
+            objectNumber: "0x" + originalObjectNumber.toString(16),
+            object,
+            size
+        }
+    }));
 }
 
 const debugLevelExits = (mapSets, mapSetNumber, mapNumber) => {
@@ -320,6 +347,7 @@ const drawMap = async (level) => {
         floorLevel = newLevel;
         ceilingLevel = 1;
     } else if (c === "C") {
+        newFloorLevel = 2;
         ceilingLevel = newLevel;
     } else {
         drawWall = true;
@@ -382,24 +410,29 @@ const drawMap = async (level) => {
                 // LARGE OBJECT
                 size = objectNumber & 0b00001111;
                 objectNumber = objectNumber >> 4;
-                let {width, height, solid, type, toGround} = largeObjects[objectNumber];
+                let {width, height, solid, clear, breakable, collapsing, type, toGround} = largeObjects[objectNumber];
                 let print = solid ? "█" : colorize(2, "█");
+                print = clear ? " " : print;
+                print = breakable ? "X" : print;
+                print = collapsing ? ":" : print;
                 let y2 = toGround ? 13 : y + height;
                 if (type === "wide") {
-                    rectangle2D(solid ? map : fg, mapWidth, newX, y, newX + (size * width), y2, print);
+                    rectangle2D(map, mapWidth, newX, y, newX + (size * width), y2, print);
                 } else if (type === "tall") {
-                    rectangle2D(solid ? map : fg, mapWidth, newX, y, newX + width, y2 + (size * height), print);
+                    rectangle2D(map, mapWidth, newX, y, newX + width - 1, y2 + (size * height), print);
                 }
             } else {
-                let {width, height, solid, toGround} = smallObjects[objectNumber];
+                let {width, height, solid, clear, toGround} = smallObjects[objectNumber];
                 let print = solid ? "█" : colorize(2, "█");
-                rectangle2D(map, mapWidth, newX, y, newX + width, y + height, print);
+                print = clear ? " " : print;
+                let y2 = toGround ? 10 : y + height;
+                rectangle2D(fg, mapWidth, newX, y, newX + width - 1, y2, print);
             }
         }
         
         if (xSpace !== 0) {
-            rectangle2D(map, mapWidth, x, 13 - floorLevel,  newX - 1, 13,           "█");
-            rectangle2D(map, mapWidth, x, 0,                newX - 1, ceilingLevel, "█");
+            rectangle2D(bg, mapWidth, x, 13 - floorLevel,  newX - 1, 13,           "█");
+            rectangle2D(bg, mapWidth, x, 0,                newX - 1, ceilingLevel, "█");
         }
 
         x = newX;
