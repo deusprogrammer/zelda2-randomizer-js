@@ -4,7 +4,7 @@ const {
     NES_HEADER_MAP } = require('./nes/NESMemoryMappings');
 const { calculateNESOffsets } = require('./nes/NESUtils');
 const { 
-    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, debugLevelExits, extractLevelExits, extractDeathMountainMapLocations, extractDeathMountainSpriteMap, extractMazeIslandSpriteMap, extractMazeIslandMapLocations } = require('./zelda2/Z2Utils');
+    printSpriteMap, extractEastHyruleSpriteMap, extractWestHyruleSpriteMap, extractWestHyruleMapLocations, extractEastHyruleMapLocations, extractSideViewMapData, debugMapBank, debugMap, drawMap, debugLevelExits, extractLevelExits, extractDeathMountainMapLocations, extractDeathMountainSpriteMap, extractMazeIslandSpriteMap, extractMazeIslandMapLocations, extractTextData, extractBackMapData } = require('./zelda2/Z2Utils');
 
 require('./Utils');
 
@@ -62,13 +62,29 @@ let mazeIslandMountainHyruleSpriteMap = extractMazeIslandSpriteMap(rom, mode);
 console.box("MAZE ISLAND SPRITE MAP [GRAPHICAL]");
 printSpriteMap(mazeIslandMountainHyruleSpriteMap, mazeIslandMountainHyruleMap);
 
+let textData = extractTextData(rom);
+
+console.box("TEXT DATA")
+for (let data of textData) {
+    console.box(`0x${data.offset.toString(16)} - 0x${(data.offset + data.size).toString(16)}`);
+    console.log(data.text + "\n");
+}
+
+let backMapSets = extractBackMapData(rom);
+// for (let mapSet = 0; mapSet < backMapSets.length; mapSet++) {
+//     for (let mapNumber = 0; mapNumber < 7; mapNumber++) {
+//         debugMap(backMapSets, mapSet, mapNumber);
+//         drawMap(backMapSets[mapSet][mapNumber]);
+//     }
+// }
+
 let mapSets = extractSideViewMapData(rom);
 let levelExits = extractLevelExits(rom);
 
-for (let mapSet = 0; mapSet < mapSets.length; mapSet++) {
-    for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
-        debugMap(mapSets, mapSet, mapNumber );
-        debugLevelExits(levelExits, mapSet, mapNumber );
-        drawMap(mapSets[mapSet][mapNumber ]);
-    }
+const MAP_SET = 6;
+
+for (let mapNumber = 0; mapNumber < 63; mapNumber++) {
+    debugMap(mapSets, MAP_SET, mapNumber );
+    debugLevelExits(levelExits, MAP_SET, mapNumber );
+    drawMap(mapSets[MAP_SET][mapNumber]);
 }

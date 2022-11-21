@@ -26,7 +26,10 @@ const {
     MAZE_ISLAND_MAP_VANILLA_OFFSET,
     MAZE_ISLAND_MAP_RANDO_OFFSET,
     MAZE_ISLAND_OVERWORLD_SPRITE_MAPPING,
-    DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING} = require("./Z2MemoryMappings");
+    DEATH_MOUNTAIN_OVERWORLD_SPRITE_MAPPING,
+    TEXT_DATA_OFFSET,
+    TEXT_DATA_LENGTH,
+    BACKMAP_POINTER_BANK_OFFSETS} = require("./Z2MemoryMappings");
 
 const WIDTH_OF_SCREEN  = 16;
 const HEIGHT_OF_SCREEN = 16;
@@ -259,6 +262,37 @@ const extractSideViewMapData = (buffer) => {
     return mapSets;
 }
 
+const extractBackMapData = (buffer) => {
+    let mapSets = [];
+    for (let bank = 0; bank < 5; bank++) {
+        let maps = [];
+        let offset = BACKMAP_POINTER_BANK_OFFSETS[bank];
+        for (let i = 0; i < 7; i++, offset += 0x2) {
+            let mapPointer = readUint16(buffer, offset);
+            mapPointer = toFileAddr(mapPointer, bank + 1);
+
+            let header = extractFields(LEVEL_HEADER_MAPPING, buffer, mapPointer);
+            let levelElements = [];
+            let read = 0x4;
+            while (read < header.sizeOfLevel) {
+                let levelObject = extractFields(LEVEL_OBJECT, buffer, mapPointer + read);
+                if (levelObject.objectNumber === 0xF && levelObject.yPosition < 13) {
+                    levelObject = extractFields(LEVEL_OBJECT_3B, buffer, mapPointer + read);
+                    read += 3;
+                } else {
+                    read += 2;
+                }
+                levelElements.push(levelObject);
+            }
+            maps.push({header, levelElements, mapSetNumber: mapSets.length, offset: mapPointer});
+        }
+
+        mapSets.push(maps);
+    }
+
+    return mapSets;
+}
+
 const extractLevelExits = (buffer) => {
     let mapSets = [];
     for (let bank = 0; bank < 5; bank++) {
@@ -278,6 +312,35 @@ const extractLevelExits = (buffer) => {
     }
 
     return mapSets;
+}
+
+const extractTextData = (buffer) => {
+    const CHARACTER_MAP = {0x32: '*', 0x34: '?', 0x36: '!', 0x9C: ',', 0xCE: '/', 0xCF: '.', 0xF7: 'l', 0xF8: 't', 0xF9: 'm', 0xFC: 'x', 0xFD: '\n', 0xFE: '\n', 0xF4: ' ', 0xF5: ' '};
+    let texts = [];
+    let text = "";
+    let startingOffset = TEXT_DATA_OFFSET;
+    for (let offset = TEXT_DATA_OFFSET; offset < TEXT_DATA_OFFSET + TEXT_DATA_LENGTH; offset++) {
+        if (buffer[offset] === 0xFF) {
+            texts.push({text, offset: startingOffset, size: offset - startingOffset});
+            text = "";
+            startingOffset = offset + 1;
+            continue;
+        }
+
+        let h = buffer[offset];
+        let c = "";
+        if (h >= 0xD0 && h <= 0xD9) {
+            c = h - 0xD0;
+        } else if (h >= 0xDA && h <= 0xF3) {
+            c = String.fromCharCode('A'.charCodeAt(0) + (h - 0xDA));
+        }else {
+            c = CHARACTER_MAP[h];
+        }
+
+        text += c;
+    }
+
+    return texts;
 }
 
 const debugMap = (mapSets, mapSetNumber, mapNumber) => {
@@ -353,13 +416,33 @@ const sleep = (ms) => {
     });
 }
 
-const drawMap = async (level) => {
+const drawMap = async (level, backMaps) => {
     let mapWidth = 4 * WIDTH_OF_SCREEN;
     
     let objectSet = level.header.objectSet;
     let noCeiling = level.header.noCeiling;
     let bushes = level.header.bushes;
     let grass = level.header.grass;
+    let backMap; 
+    let backMapLayer = create2D(mapWidth, HEIGHT_OF_SCREEN);
+    if (backMaps) {
+        let backMapBank = 0;
+        if (level.mapSetNumber === 0 || level.mapSetNumber === 1) {
+            backMapBank = 0;
+        } else if (level.mapSetNumber === 1 || level.mapSetNumber === 2) {
+            backMapBank = 1;
+        } else if (level.mapSetNumber === 2 || level.mapSetNumber === 3) {
+            backMapBank = 2;
+        } else if (level.mapSetNumber === 4) {
+            backMapBank = 3;
+        } else if (level.mapSetNumber === 5 || level.mapSetNumber === 6) {
+            backMapBank = 4;
+        } else if (level.mapSetNumber === 7) {
+            backMapBank = 5;
+        }
+        backMap = backMaps[backMapBank][level.header.backMap];
+        backMapLayer = await drawMap(backMap);
+    }
 
     let largeObjects = LARGE_OBJECT_SETS[level.mapSetNumber][objectSet];
     let smallObjects = SMALL_OBJECTS[level.mapSetNumber];
@@ -431,7 +514,7 @@ const drawMap = async (level) => {
             // EXTRA OBJECT
             size = objectNumber & 0b00001111;
             objectNumber = objectNumber >> 4;
-            if (objectNumber === 0x2) {
+            if (objectNumber === 0x2 || objectNumber === 0x1) {
                 rectangle2D(fg, mapWidth, newX, 10, newX + size, 13, colorize(31, "█"));
             }
         } else {
@@ -490,8 +573,10 @@ const drawMap = async (level) => {
         rectangle2D(map, mapWidth, x, 13 - floorLevel,  mapWidth - 1, 13,           "█");
         rectangle2D(map, mapWidth, x, 0,                mapWidth - 1, ceilingLevel, "█");
     }
-    let layers = layer2D(bg, map, fg);
+    let layers = layer2D(backMapLayer, bg, map, fg);
     draw2D(layers, mapWidth);
+
+    return layers;
 }
 
 exports.printDebugMap = printDebugMap;
@@ -505,7 +590,9 @@ exports.extractMazeIslandMapLocations = extractMazeIslandMapLocations;
 exports.extractDeathMountainSpriteMap = extractDeathMountainSpriteMap;
 exports.extractMazeIslandSpriteMap = extractMazeIslandSpriteMap;
 exports.extractSideViewMapData = extractSideViewMapData;
+exports.extractBackMapData = extractBackMapData;
 exports.extractLevelExits = extractLevelExits;
+exports.extractTextData = extractTextData;
 exports.debugMap = debugMap;
 exports.debugLevelExits = debugLevelExits;
 exports.debugMapBank = debugMapBank;

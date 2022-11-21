@@ -116,8 +116,8 @@ const vLine2D = (buffer, width, y1, y2, x, c) => {
 }
 
 const layer2D = (...layerBuffers) => {
-    let buffer = [...layerBuffers[0]];
-    for (let i = 1; i < layerBuffers.length; i++) {
+    let buffer = new Array(layerBuffers[0].length);
+    for (let i = 0; i < layerBuffers.length; i++) {
         let layer = layerBuffers[i];
         layer.forEach((block, j) => {
             buffer[j] = block;
